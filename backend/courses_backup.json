@@ -1,0 +1,422 @@
+[
+{
+  "model": "courses.course",
+  "pk": 1,
+  "fields": {
+    "title": "HTML Fundamentals",
+    "category": "Frontend",
+    "level": "Beginner",
+    "description": "Learn the fundamentals of HTML and build structured web pages.",
+    "duration": "",
+    "image": null,
+    "created_at": "2026-11-11T06:32:38.184Z",
+    "updated_at": "2026-11-11T06:32:38.184Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 2,
+  "fields": {
+    "title": "CSS Fundamentals",
+    "category": "Frontend",
+    "level": "Beginner",
+    "description": "Learn styling, layouts, selectors and modern CSS.",
+    "duration": "",
+    "image": null,
+    "created_at": "2026-11-11T06:32:38.190Z",
+    "updated_at": "2026-11-11T06:32:38.190Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 3,
+  "fields": {
+    "title": "JavaScript Development",
+    "category": "Frontend",
+    "level": "Beginner",
+    "description": "Understand JavaScript programming and browser interactions.",
+    "duration": "",
+    "image": null,
+    "created_at": "2026-11-11T06:32:38.194Z",
+    "updated_at": "2026-11-11T06:32:38.194Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 4,
+  "fields": {
+    "title": "React JS Development",
+    "category": "Frontend",
+    "level": "Intermediate",
+    "description": "Build interactive user interfaces using React.",
+    "duration": "",
+    "image": null,
+    "created_at": "2026-11-11T06:32:38.198Z",
+    "updated_at": "2026-11-11T06:32:38.198Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 5,
+  "fields": {
+    "title": "Angular Development",
+    "category": "Frontend",
+    "level": "Intermediate",
+    "description": "Develop modern web applications using Angular.",
+    "duration": "",
+    "image": null,
+    "created_at": "2026-11-11T06:32:38.200Z",
+    "updated_at": "2026-11-11T06:32:38.200Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 6,
+  "fields": {
+    "title": "Bootstrap and Responsive Design",
+    "category": "Frontend",
+    "level": "Beginner",
+    "description": "Create responsive websites using Bootstrap.",
+    "duration": "",
+    "image": null,
+    "created_at": "2026-11-11T06:32:38.204Z",
+    "updated_at": "2026-11-11T06:32:38.204Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 7,
+  "fields": {
+    "title": "Python Full Stack Development",
+    "category": "Backend",
+    "level": "Beginner",
+    "description": "Learn Python and build full-stack web applications.",
+    "duration": "",
+    "image": null,
+    "created_at": "2026-11-11T06:32:38.209Z",
+    "updated_at": "2026-11-11T06:32:38.209Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 8,
+  "fields": {
+    "title": "Django Development",
+    "category": "Backend",
+    "level": "Intermediate",
+    "description": "Build web applications using the Django framework.",
+    "duration": "",
+    "image": null,
+    "created_at": "2026-11-11T06:32:38.213Z",
+    "updated_at": "2026-11-11T06:32:38.213Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 9,
+  "fields": {
+    "title": "Node.js Development",
+    "category": "Backend",
+    "level": "Intermediate",
+    "description": "Learn server-side JavaScript development.",
+    "duration": "",
+    "image": null,
+    "created_at": "2026-11-11T06:32:38.217Z",
+    "updated_at": "2026-11-11T06:32:38.217Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 10,
+  "fields": {
+    "title": "Express.js Development",
+    "category": "Backend",
+    "level": "Intermediate",
+    "description": "Create backend applications and APIs using Express.",
+    "duration": "",
+    "image": null,
+    "created_at": "2026-11-11T06:32:38.219Z",
+    "updated_at": "2026-11-11T06:32:38.219Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 11,
+  "fields": {
+    "title": "Java Spring Boot",
+    "category": "Backend",
+    "level": "Advanced",
+    "description": "Develop enterprise applications using Spring Boot.",
+    "duration": "",
+    "image": null,
+    "created_at": "2026-11-11T06:32:38.222Z",
+    "updated_at": "2026-11-11T06:32:38.222Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 12,
+  "fields": {
+    "title": "REST API Development",
+    "category": "Backend",
+    "level": "Advanced",
+    "description": "Design and develop RESTful backend services.",
+    "duration": "",
+    "image": null,
+    "created_at": "2026-11-11T06:32:38.224Z",
+    "updated_at": "2026-11-11T06:32:38.224Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 13,
+  "fields": {
+    "title": "SQL Fundamentals",
+    "category": "Database",
+    "level": "Beginner",
+    "description": "Learn SQL queries and relational database concepts.",
+    "duration": "",
+    "image": null,
+    "created_at": "2026-11-11T06:32:38.227Z",
+    "updated_at": "2026-11-11T06:32:38.227Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 14,
+  "fields": {
+    "title": "MySQL Database",
+    "category": "Database",
+    "level": "Beginner",
+    "description": "Manage relational databases using MySQL.",
+    "duration": "",
+    "image": null,
+    "created_at": "2026-11-11T06:32:38.229Z",
+    "updated_at": "2026-11-11T06:32:38.229Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 15,
+  "fields": {
+    "title": "PostgreSQL Database",
+    "category": "Database",
+    "level": "Intermediate",
+    "description": "Work with PostgreSQL databases and queries.",
+    "duration": "",
+    "image": null,
+    "created_at": "2026-11-11T06:32:38.233Z",
+    "updated_at": "2026-11-11T06:32:38.233Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 16,
+  "fields": {
+    "title": "MongoDB Database",
+    "category": "Database",
+    "level": "Intermediate",
+    "description": "Learn NoSQL database concepts using MongoDB.",
+    "duration": "",
+    "image": null,
+    "created_at": "2026-11-11T06:32:38.235Z",
+    "updated_at": "2026-11-11T06:32:38.235Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 17,
+  "fields": {
+    "title": "Advanced SQL",
+    "category": "Database",
+    "level": "Advanced",
+    "description": "Explore joins, subqueries, CTEs and window functions.",
+    "duration": "",
+    "image": null,
+    "created_at": "2026-11-11T06:32:38.238Z",
+    "updated_at": "2026-11-11T06:32:38.238Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 18,
+  "fields": {
+    "title": "Database Design",
+    "category": "Database",
+    "level": "Advanced",
+    "description": "Learn database modelling and normalization.",
+    "duration": "",
+    "image": null,
+    "created_at": "2026-11-11T06:32:38.241Z",
+    "updated_at": "2026-11-11T06:32:38.241Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 19,
+  "fields": {
+    "title": "Artificial Intelligence Fundamentals",
+    "category": "AI/ML",
+    "level": "Beginner",
+    "description": "Understand the foundations of artificial intelligence.",
+    "duration": "",
+    "image": null,
+    "created_at": "2026-11-11T06:32:38.244Z",
+    "updated_at": "2026-11-11T06:32:38.244Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 20,
+  "fields": {
+    "title": "Data Science with Python",
+    "category": "AI/ML",
+    "level": "Beginner",
+    "description": "Explore data analysis and visualization using Python.",
+    "duration": "",
+    "image": null,
+    "created_at": "2026-11-11T06:32:38.248Z",
+    "updated_at": "2026-11-11T06:32:38.249Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 21,
+  "fields": {
+    "title": "Machine Learning",
+    "category": "AI/ML",
+    "level": "Intermediate",
+    "description": "Learn machine learning algorithms and model training.",
+    "duration": "",
+    "image": null,
+    "created_at": "2026-11-11T06:32:38.251Z",
+    "updated_at": "2026-11-11T06:32:38.251Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 22,
+  "fields": {
+    "title": "Deep Learning",
+    "category": "AI/ML",
+    "level": "Advanced",
+    "description": "Explore neural networks and deep learning architectures.",
+    "duration": "",
+    "image": null,
+    "created_at": "2026-11-11T06:32:38.255Z",
+    "updated_at": "2026-11-11T06:32:38.255Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 23,
+  "fields": {
+    "title": "Natural Language Processing",
+    "category": "AI/ML",
+    "level": "Advanced",
+    "description": "Work with text processing and language models.",
+    "duration": "",
+    "image": null,
+    "created_at": "2026-11-11T06:32:38.259Z",
+    "updated_at": "2026-11-11T06:32:38.259Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 24,
+  "fields": {
+    "title": "Computer Vision",
+    "category": "AI/ML",
+    "level": "Advanced",
+    "description": "Understand image processing and computer vision.",
+    "duration": "",
+    "image": null,
+    "created_at": "2026-11-11T06:32:38.262Z",
+    "updated_at": "2026-11-11T06:32:38.262Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 25,
+  "fields": {
+    "title": "Generative AI",
+    "category": "AI/ML",
+    "level": "Intermediate",
+    "description": "Explore generative AI models and applications.",
+    "duration": "",
+    "image": null,
+    "created_at": "2026-11-11T06:32:38.266Z",
+    "updated_at": "2026-11-11T06:32:38.266Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 26,
+  "fields": {
+    "title": "Prompt Engineering",
+    "category": "AI/ML",
+    "level": "Intermediate",
+    "description": "Learn techniques for writing effective AI prompts.",
+    "duration": "",
+    "image": null,
+    "created_at": "2026-11-11T06:32:38.269Z",
+    "updated_at": "2026-11-11T06:32:38.269Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 27,
+  "fields": {
+    "title": "C Programming",
+    "category": "Programming",
+    "level": "Beginner",
+    "description": "Learn programming fundamentals using C.",
+    "duration": "",
+    "image": null,
+    "created_at": "2026-11-11T06:32:38.273Z",
+    "updated_at": "2026-11-11T06:32:38.273Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 28,
+  "fields": {
+    "title": "C++ Programming",
+    "category": "Programming",
+    "level": "Intermediate",
+    "description": "Understand object-oriented programming using C++.",
+    "duration": "",
+    "image": null,
+    "created_at": "2026-11-11T06:32:38.276Z",
+    "updated_at": "2026-11-11T06:32:38.276Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 29,
+  "fields": {
+    "title": "Data Structures and Algorithms",
+    "category": "Programming",
+    "level": "Advanced",
+    "description": "Learn essential data structures and algorithms.",
+    "duration": "",
+    "image": null,
+    "created_at": "2026-11-11T06:32:38.282Z",
+    "updated_at": "2026-11-11T06:32:38.282Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 30,
+  "fields": {
+    "title": "Java Programming",
+    "category": "Programming",
+    "level": "Advanced",
+    "description": "Learn Java programming and object-oriented concepts.",
+    "duration": "",
+    "image": null,
+    "created_at": "2026-11-11T06:32:38.285Z",
+    "updated_at": "2026-11-11T06:32:38.285Z"
+  }
+}
+]
