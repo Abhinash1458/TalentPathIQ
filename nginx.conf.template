@@ -1,0 +1,68 @@
+# Rendered at container start by the nginx image's envsubst entrypoint.
+# Only real environment variables are substituted, so nginx's own $uri,
+# $host and friends survive untouched.
+#
+#   PORT        - port to listen on (80 locally, injected by Railway)
+#   BACKEND_URL - upstream Django service
+
+server {
+    listen ${PORT};
+    server_name _;
+
+    root /usr/share/nginx/html;
+    index index.html;
+
+    # Docker's embedded DNS. Used only for the runtime-resolved proxy below.
+    resolver 127.0.0.11 ipv6=off valid=10s;
+
+    # Holding the upstream in a variable defers DNS resolution to request
+    # time. With a literal hostname nginx resolves at startup and refuses to
+    # boot if the backend is not reachable, which is the case on hosts where
+    # the API is served from its own public domain instead.
+    set $backend_url "${BACKEND_URL}";
+
+    gzip on;
+    gzip_types text/css application/javascript application/json image/svg+xml;
+    gzip_min_length 1024;
+
+    # Hashed Vite assets are immutable.
+    location /assets/ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+        try_files $uri =404;
+    }
+
+    # Proxy the Django API so the browser talks to a single origin.
+    # The frontend can therefore call "/api/..." with no CORS involved.
+    location /api/ {
+        proxy_pass $backend_url$request_uri;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # Django admin, also proxied, so /admin/ works from the same port.
+    location /admin/ {
+        proxy_pass $backend_url$request_uri;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # Django's collected static files (admin CSS), served by WhiteNoise.
+    location /static/ {
+        proxy_pass $backend_url$request_uri;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # SPA fallback: unknown paths return index.html.
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+}

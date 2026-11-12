@@ -1,0 +1,27 @@
+# Shared by the frontend and backend images: both build from the repo root.
+# "backend" is deliberately NOT excluded — backend/Dockerfile copies from it.
+
+.git
+.gitignore
+node_modules
+dist
+dist-ssr
+*.log
+logs
+.env
+.vscode
+.idea
+desktop.ini
+docker-compose.yml
+.dockerignore
+README.md
+.railway
+
+# Python artefacts that must never enter an image
+backend/venv
+backend/venv312
+backend/staticfiles
+**/__pycache__
+**/*.py[cod]
+backend/db.sqlite3
+backend/.env
