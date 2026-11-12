@@ -551,6 +551,55 @@ button {
   font-size: 12px;
 }
 
+/* Accent per backend category choice. */
+
+.course-symbol.frontend {
+  color: #e45b42;
+  background: #fff0ec;
+}
+
+.course-symbol.backend {
+  color: #15975b;
+  background: #e7f8ef;
+}
+
+.course-symbol.database {
+  color: #7c56d6;
+  background: #f2edff;
+}
+
+.course-symbol.aiml {
+  color: #2875bd;
+  background: #eaf4ff;
+}
+
+.course-symbol.programming {
+  color: #bd7a14;
+  background: #fff4df;
+}
+
+/* Catalogue loading / empty / error states */
+
+.catalogue-status {
+  padding: 26px 0;
+  color: #8995a7;
+  font-size: 12px;
+  text-align: center;
+}
+
+.catalogue-status.error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 13px;
+  color: #c0392b;
+}
+
+.catalogue-status.error .btn {
+  width: auto;
+  padding: 8px 16px;
+}
+
 .catalogue-card-copy {
   flex: 1;
 }
