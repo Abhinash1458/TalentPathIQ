@@ -79,11 +79,20 @@ function App() {
   useEffect(() => { setCurrentPage(1); }, [selectedCategories, selectedLevels, search, sortBy]);
   useEffect(() => { if (currentPage > totalPages) setCurrentPage(totalPages); }, [currentPage, totalPages]);
 
-  function navigate(nextPage) {
-    setPage(nextPage);
-    setSidebarOpen(false);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+function navigate(nextPage) {
+  // Reset search and filters when returning to Trainings
+  if (nextPage === "trainings") {
+    setSearch("");
+    setSelectedCategories([]);
+    setSelectedLevels([]);
+    setCurrentPage(1);
+    setSortBy("recent");
   }
+
+  setPage(nextPage);
+  setSidebarOpen(false);
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
 
   function toggleValue(value, values, setter) {
     setter(values.includes(value) ? values.filter((item) => item !== value) : [...values, value]);
@@ -139,17 +148,18 @@ function App() {
 
           {page === "trainings" && <section id="trainings" className="trainings-page">
             <div className="breadcrumb"><span>HOME</span><span className="slash">/</span><span>TRAININGS</span></div>
-            <div className="page-heading"><div><h1>Trainings</h1><p>Pick a training type to see what you can enrol in.</p></div><span className="entry-tag">Learning space</span></div>
+            <div className="page-heading"><div><h1>Trainings</h1><p>Pick a training type to see what you can enrol in.</p></div></div>
             <section className="training-grid" aria-label="Training types">
-              <article className="training-card" id="courses"><div className="card-icon courses-icon">▤</div><div className="card-title-row"><h2>Courses</h2><span className="status-tag live">In sprint 1</span></div><p className="card-description">Structured modules and problem statements across Java, Python and REST, with graded exercises.</p><div className="stats two-stats"><div><span className="stat-label">COURSES</span><strong>30</strong></div><div><span className="stat-label">PROBLEM STATEMENTS</span><strong>0</strong></div></div><button className="btn btn-primary" type="button" onClick={() => navigate("catalogue")}>Browse courses <span>→</span></button></article>
-              <article className="training-card" id="hackathons"><div className="card-icon hackathon-icon">♜</div><div className="card-title-row"><h2>Hackathon</h2><span className="status-tag backlog">Backlog</span></div><p className="card-description">Timed team challenges with a leaderboard and a judged submission at the end.</p><div className="stats"><div><span className="stat-label">LIVE NOW</span><strong>3</strong></div><div><span className="stat-label">PAST EVENTS</span><strong>12</strong></div></div><button className="btn btn-outline" type="button" onClick={() => showComingSoon("Hackathon")}>Coming soon</button></article>
-              <article className="training-card" id="assessments"><div className="card-icon assessment-icon">▧</div><div className="card-title-row"><h2>Assessments</h2><span className="status-tag backlog">Backlog</span></div><p className="card-description">Timed skill tests that score you by category and level, and feed your profile.</p><div className="stats"><div><span className="stat-label">AVAILABLE</span><strong>9</strong></div><div><span className="stat-label">ATTEMPTED</span><strong>2</strong></div></div><button className="btn btn-outline" type="button" onClick={() => showComingSoon("Assessments")}>Coming soon</button></article>
+              <article className="training-card" id="courses"><div className="card-icon courses-icon">▤</div><div className="card-title-row"><h2>Courses</h2></div><p className="card-description">Structured modules and problem statements across Java, Python and REST, with graded exercises.</p><div className="stats two-stats"><div><span className="stat-label">COURSES</span><strong>30</strong></div><div><span className="stat-label">PROBLEM STATEMENTS</span><strong>0</strong></div></div><button className="btn btn-primary" type="button" onClick={() => navigate("catalogue")}>Browse courses <span>→</span></button></article>
+              <article className="training-card" id="hackathons"><div className="card-icon hackathon-icon">♜</div><div className="card-title-row"><h2>Hackathon</h2></div><p className="card-description">Timed team challenges with a leaderboard and a judged submission at the end.</p><div className="stats"><div><span className="stat-label">LIVE NOW</span><strong>3</strong></div><div><span className="stat-label">PAST EVENTS</span><strong>12</strong></div></div><button className="btn btn-outline" type="button" onClick={() => showComingSoon("Hackathon")}>Coming soon</button></article>
+              <article className="training-card" id="assessments"><div className="card-icon assessment-icon">▧</div><div className="card-title-row"><h2>Assessments</h2></div><p className="card-description">Timed skill tests that score you by category and level, and feed your profile.</p><div className="stats"><div><span className="stat-label">AVAILABLE</span><strong>9</strong></div><div><span className="stat-label">ATTEMPTED</span><strong>2</strong></div></div><button className="btn btn-outline" type="button" onClick={() => showComingSoon("Assessments")}>Coming soon</button></article>
             </section>
           </section>}
 
           {page === "catalogue" && <section className="catalogue-page" id="catalogue">
             <div className="breadcrumb"><span>HOME</span><span className="slash">/</span><span>TRAININGS</span><span className="slash">/</span><span>COURSES</span></div>
-            <div className="page-heading"><div><button className="text-back" type="button" onClick={() => navigate("trainings")}>← Back to trainings</button><h1>Course Catalogue</h1><p>Explore courses and narrow your learning path by category and difficulty.</p></div><span className="entry-tag">{courses.length} courses</span></div>
+        
+            <div className="page-heading"><div><button className="text-back" type="button" onClick={() => navigate("trainings")}>← Back to trainings</button><h1>Course Catalogue</h1><p>Explore courses and narrow your learning path by category and difficulty.</p></div></div>
             <div className="catalogue-toolbar">
               <label className="search-field"><span aria-hidden="true">⌕</span><input type="search" placeholder="Search courses or skills" value={search} onChange={(event) => setSearch(event.target.value)} aria-label="Search courses or skills" /></label>
               <label className="sort-field"><span>Sort by</span><select value={sortBy} onChange={(event) => setSortBy(event.target.value)} aria-label="Sort courses"><option value="recent">Recently added</option><option value="alphabetical">Alphabetical</option></select></label>
@@ -172,8 +182,7 @@ function App() {
 
           {page === "course-detail" && selectedCourse && <section className="course-detail-page">
             <div className="breadcrumb"><span>HOME</span><span className="slash">/</span><span>TRAININGS</span><span className="slash">/</span><span>COURSES</span><span className="slash">/</span><span>COURSE DETAILS</span></div>
-            <div className="detail-back-row"><button className="text-back" type="button" onClick={() => navigate("catalogue")}>← Back to course catalogue</button><span className="entry-tag">Course overview</span></div>
-            <section className="detail-hero">
+            <div className="page-heading"><div><button className="text-back" type="button" onClick={() => navigate("catalogue")}>← Back to course catalogue</button><h1>Course Details</h1></div></div><section className="detail-hero">
               <div className={`course-symbol detail-symbol ${selectedCourse.category.toLowerCase()}`}>{selectedCourse.category === "REST" ? "API" : selectedCourse.category === "Java" ? "J" : "Py"}</div>
               <div className="detail-hero-copy"><div className="course-card-topline"><span className="course-level">{selectedCourse.category.toUpperCase()}</span><span className={`level-pill ${selectedCourse.level.toLowerCase()}`}>{selectedCourse.level}</span></div>
                 <h1>{selectedCourse.title}</h1><p>{selectedCourse.description}</p>
