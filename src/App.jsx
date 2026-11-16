@@ -89,9 +89,6 @@ function App() {
     () => getRouteFromHash().course
   );
 
-  const [enrolledCourses, setEnrolledCourses] = useState([]);
-  const [page, setPage] = useState("trainings");
-  const [selectedCourse, setSelectedCourse] = useState(null);
   // Restore enrolments when the page loads so refreshes do not reset the button.
   const [enrolledCourses, setEnrolledCourses] = useState(() => {
     try {
@@ -216,18 +213,18 @@ function App() {
   }, [currentPage, totalPages]);
 
   function navigate(nextPage) {
-function navigate(nextPage) {
-  // Reset search and filters when returning to Trainings
-  if (nextPage === "trainings") {
-    setSearch("");
-    setSelectedCategories([]);
-    setSelectedLevels([]);
-    setCurrentPage(1);
-    setSortBy("recent");
-    setPage(nextPage);
-    setSelectedCourse(null);
-    setSidebarOpen(false);
+    // Reset search and filters only when returning to Trainings.
+    if (nextPage === "trainings") {
+      setSearch("");
+      setSelectedCategories([]);
+      setSelectedLevels([]);
+      setCurrentPage(1);
+      setSortBy("recent");
+      setSelectedCourse(null);
+    }
 
+    // The hash must be updated for every destination, not just Trainings,
+    // or #catalogue and #account are never reachable by URL.
     const routes = {
       trainings: "#trainings",
       catalogue: "#catalogue",
@@ -236,13 +233,10 @@ function navigate(nextPage) {
 
     window.location.hash = routes[nextPage] || "#trainings";
 
+    setPage(nextPage);
+    setSidebarOpen(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
-
-  setPage(nextPage);
-  setSidebarOpen(false);
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
 
   function toggleValue(value, values, setter) {
     setter(
@@ -991,52 +985,6 @@ function navigate(nextPage) {
                 <span className="status-tag backlog">
                   Profile settings coming soon
                 </span>
-          <button className="mobile-menu" type="button" aria-label="Toggle navigation" onClick={() => setSidebarOpen((open) => !open)}>☰</button>
-
-          {page === "trainings" && <section id="trainings" className="trainings-page">
-            <div className="breadcrumb"><span>HOME</span><span className="slash">/</span><span>TRAININGS</span></div>
-            <div className="page-heading"><div><h1>Trainings</h1><p>Pick a training type to see what you can enrol in.</p></div></div>
-            <section className="training-grid" aria-label="Training types">
-              <article className="training-card" id="courses"><div className="card-icon courses-icon">▤</div><div className="card-title-row"><h2>Courses</h2></div><p className="card-description">Structured modules and problem statements across Java, Python and REST, with graded exercises.</p><div className="stats two-stats"><div><span className="stat-label">COURSES</span><strong>30</strong></div><div><span className="stat-label">PROBLEM STATEMENTS</span><strong>0</strong></div></div><button className="btn btn-primary" type="button" onClick={() => navigate("catalogue")}>Browse courses <span>→</span></button></article>
-              <article className="training-card" id="hackathons"><div className="card-icon hackathon-icon">♜</div><div className="card-title-row"><h2>Hackathon</h2></div><p className="card-description">Timed team challenges with a leaderboard and a judged submission at the end.</p><div className="stats"><div><span className="stat-label">LIVE NOW</span><strong>3</strong></div><div><span className="stat-label">PAST EVENTS</span><strong>12</strong></div></div><button className="btn btn-outline" type="button" onClick={() => showComingSoon("Hackathon")}>Coming soon</button></article>
-              <article className="training-card" id="assessments"><div className="card-icon assessment-icon">▧</div><div className="card-title-row"><h2>Assessments</h2></div><p className="card-description">Timed skill tests that score you by category and level, and feed your profile.</p><div className="stats"><div><span className="stat-label">AVAILABLE</span><strong>9</strong></div><div><span className="stat-label">ATTEMPTED</span><strong>2</strong></div></div><button className="btn btn-outline" type="button" onClick={() => showComingSoon("Assessments")}>Coming soon</button></article>
-            </section>
-          </section>}
-
-          {page === "catalogue" && <section className="catalogue-page" id="catalogue">
-            <div className="breadcrumb"><span>HOME</span><span className="slash">/</span><span>TRAININGS</span><span className="slash">/</span><span>COURSES</span></div>
-        
-            <div className="page-heading"><div><button className="text-back" type="button" onClick={() => navigate("trainings")}>← Back to trainings</button><h1>Course Catalogue</h1><p>Explore courses and narrow your learning path by category and difficulty.</p></div></div>
-            <div className="catalogue-toolbar">
-              <label className="search-field"><span aria-hidden="true">⌕</span><input type="search" placeholder="Search courses or skills" value={search} onChange={(event) => setSearch(event.target.value)} aria-label="Search courses or skills" /></label>
-              <label className="sort-field"><span>Sort by</span><select value={sortBy} onChange={(event) => setSortBy(event.target.value)} aria-label="Sort courses"><option value="recent">Recently added</option><option value="alphabetical">Alphabetical</option></select></label>
-            </div>
-            <div className="catalogue-layout">
-              <aside className="filter-panel" aria-label="Course filters">
-                <div className="filter-heading"><h2>Filters</h2>{activeFilterCount > 0 && <span>{activeFilterCount} active</span>}</div>
-                <div className="filter-group"><h3>Category</h3>{categories.map((category) => <label className="filter-option" key={category}><input type="checkbox" checked={selectedCategories.includes(category)} onChange={() => toggleValue(category, selectedCategories, setSelectedCategories)} /><span>{category}</span><small>{courses.filter((course) => course.category === category).length}</small></label>)}</div>
-                <div className="filter-group"><h3>Difficulty</h3>{levels.map((level) => <label className="filter-option" key={level}><input type="checkbox" checked={selectedLevels.includes(level)} onChange={() => toggleValue(level, selectedLevels, setSelectedLevels)} /><span>{level}</span></label>)}</div>
-                <button className="clear-filter-button" type="button" onClick={clearFilters} disabled={!activeFilterCount && !search}>Clear all filters</button>
-              </aside>
-              <div className="catalogue-results">
-                <div className="results-heading"><p><strong>{filteredCourses.length}</strong> courses found</p>{(activeFilterCount > 0 || search) && <button type="button" onClick={clearFilters}>Clear all</button>}</div>
-                {(activeFilterCount > 0 || search) && <div className="active-chips" aria-label="Active filters">{selectedCategories.map((item) => <button key={item} type="button" className="filter-chip" onClick={() => toggleValue(item, selectedCategories, setSelectedCategories)}>{item} <span>×</span></button>)}{selectedLevels.map((item) => <button key={item} type="button" className="filter-chip" onClick={() => toggleValue(item, selectedLevels, setSelectedLevels)}>{item} <span>×</span></button>)}{search && <button type="button" className="filter-chip" onClick={() => setSearch("")}>Search: {search} <span>×</span></button>}</div>}
-                {visibleCourses.length > 0 ? <div className="catalogue-grid">{visibleCourses.map((course) => <article className="catalogue-card" key={course.id}><div className={`course-symbol ${course.category.toLowerCase()}`}>{course.category === "REST" ? "API" : course.category === "Java" ? "J" : "Py"}</div><div className="catalogue-card-copy"><div className="course-card-topline"><span className="course-level">{course.category.toUpperCase()}</span><span className={`level-pill ${course.level.toLowerCase()}`}>{course.level}</span></div><h3>{course.title}</h3><p>{course.description}</p><div className="course-meta"><span>◷ {course.duration}</span><span>Updated {new Date(course.updated).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}</span></div></div><button className="btn btn-outline catalogue-action" type="button" onClick={() => openCourse(course)}>View course <span>→</span></button></article>)}</div> : <div className="empty-state"><div className="empty-icon">⌕</div><h3>No courses found</h3><p>Try changing your search or removing some filters.</p><button className="btn btn-primary" type="button" onClick={clearFilters}>Clear all filters</button></div>}
-                {filteredCourses.length > 0 && <div className="pagination"><span>Showing {(currentPage - 1) * pageSize + 1}–{Math.min(currentPage * pageSize, filteredCourses.length)} of {filteredCourses.length}</span><div className="pagination-controls"><button type="button" aria-label="Previous page" disabled={currentPage === 1} onClick={() => setCurrentPage((value) => value - 1)}>‹</button>{Array.from({ length: totalPages }, (_, index) => <button type="button" key={index + 1} className={currentPage === index + 1 ? "selected" : ""} aria-label={`Page ${index + 1}`} aria-current={currentPage === index + 1 ? "page" : undefined} onClick={() => setCurrentPage(index + 1)}>{index + 1}</button>)}<button type="button" aria-label="Next page" disabled={currentPage === totalPages} onClick={() => setCurrentPage((value) => value + 1)}>›</button></div></div>}
-              </div>
-            </div>
-          </section>}
-
-          {page === "course-detail" && selectedCourse && <section className="course-detail-page">
-            <div className="breadcrumb"><span>HOME</span><span className="slash">/</span><span>TRAININGS</span><span className="slash">/</span><span>COURSES</span><span className="slash">/</span><span>COURSE DETAILS</span></div>
-            <div className="page-heading"><div><button className="text-back" type="button" onClick={() => navigate("catalogue")}>← Back to course catalogue</button><h1>Course Details</h1></div></div><section className="detail-hero">
-              <div className={`course-symbol detail-symbol ${selectedCourse.category.toLowerCase()}`}>{selectedCourse.category === "REST" ? "API" : selectedCourse.category === "Java" ? "J" : "Py"}</div>
-              <div className="detail-hero-copy"><div className="course-card-topline"><span className="course-level">{selectedCourse.category.toUpperCase()}</span><span className={`level-pill ${selectedCourse.level.toLowerCase()}`}>{selectedCourse.level}</span></div>
-                <h1>{selectedCourse.title}</h1><p>{selectedCourse.description}</p>
-                <div className="detail-meta"><span>◷ {selectedCourse.duration}</span><span>Updated {new Date(selectedCourse.updated).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}</span></div>
-              </div>
-              <div className="detail-action"><span className={enrolledCourses.includes(selectedCourse.id) ? "enrolled-label" : "not-enrolled-label"}>{enrolledCourses.includes(selectedCourse.id) ? "You are enrolled" : "Not enrolled"}</span>
-                <button className="btn btn-primary" type="button" onClick={() => handleCourseAction(selectedCourse)}>{enrolledCourses.includes(selectedCourse.id) ? "Enrolled" : "Enrol now"}</button>
               </div>
             </section>
           )}
