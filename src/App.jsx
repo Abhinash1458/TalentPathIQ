@@ -46,7 +46,17 @@ function GraduationCap() {
 function App() {
   const [page, setPage] = useState("trainings");
   const [selectedCourse, setSelectedCourse] = useState(null);
-  const [enrolledCourses, setEnrolledCourses] = useState([]);
+  // Restore enrolments when the page loads so refreshes do not reset the button.
+  const [enrolledCourses, setEnrolledCourses] = useState(() => {
+    try {
+      const saved = window.localStorage.getItem("talentpathiq-enrolled-courses");
+      const parsed = saved ? JSON.parse(saved) : [];
+      return Array.isArray(parsed) ? parsed : [];
+    } catch (error) {
+      console.error("Unable to load saved course enrolments:", error);
+      return [];
+    }
+  });
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [toast, setToast] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -54,6 +64,18 @@ function App() {
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState("recent");
   const [currentPage, setCurrentPage] = useState(1);
+
+  // Persist enrolments locally between refreshes.
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(
+        "talentpathiq-enrolled-courses",
+        JSON.stringify(enrolledCourses)
+      );
+    } catch (error) {
+      console.error("Unable to save course enrolments:", error);
+    }
+  }, [enrolledCourses]);
 
   useEffect(() => {
     if (!toast) return undefined;
@@ -114,12 +136,15 @@ function navigate(nextPage) {
   }
 
   function handleCourseAction(course) {
-    if (!enrolledCourses.includes(course.id)) {
-      setEnrolledCourses((current) => [...current, course.id]);
-      setToast(`You are enrolled in ${course.title}.`);
+    if (enrolledCourses.includes(course.id)) {
+      setToast(`You are already enrolled in ${course.title}.`);
       return;
     }
-    setToast(`Resuming ${course.title}.`);
+
+    setEnrolledCourses((current) =>
+      current.includes(course.id) ? current : [...current, course.id]
+    );
+    setToast(`You are enrolled in ${course.title}.`);
   }
 
   return (
@@ -189,7 +214,7 @@ function navigate(nextPage) {
                 <div className="detail-meta"><span>◷ {selectedCourse.duration}</span><span>Updated {new Date(selectedCourse.updated).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}</span></div>
               </div>
               <div className="detail-action"><span className={enrolledCourses.includes(selectedCourse.id) ? "enrolled-label" : "not-enrolled-label"}>{enrolledCourses.includes(selectedCourse.id) ? "You are enrolled" : "Not enrolled"}</span>
-                <button className="btn btn-primary" type="button" onClick={() => handleCourseAction(selectedCourse)}>{enrolledCourses.includes(selectedCourse.id) ? "Open / Resume" : "Enrol now"} <span>→</span></button>
+                <button className="btn btn-primary" type="button" onClick={() => handleCourseAction(selectedCourse)}>{enrolledCourses.includes(selectedCourse.id) ? "Enrolled" : "Enrol now"}</button>
               </div>
             </section>
             <div className="detail-content-grid">

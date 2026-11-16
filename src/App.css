@@ -417,7 +417,7 @@ button {
 }
 
 .text-back {
-  padding: 0;
+  padding: 10px 0;
   border: none;
   background: transparent;
   color: #2563eb;
