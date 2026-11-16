@@ -1,5 +1,5 @@
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import "./App.css";
 import logoMark from "./assets/talentpath-logo.png";
 
@@ -108,6 +108,19 @@ function App() {
   const [sortBy, setSortBy] = useState("recent");
   const [currentPage, setCurrentPage] = useState(1);
 
+  // .main-content is height:100vh with overflow-y:auto at every breakpoint,
+  // so it — not the window — is what actually scrolls. window.scrollTo()
+  // silently does nothing here, which is why paging left you at the bottom.
+  const mainRef = useRef(null);
+
+  function scrollToTop() {
+    mainRef.current?.scrollTo({ top: 0, behavior: "smooth" });
+
+    // Harmless no-op while .main-content owns the scrolling, but keeps this
+    // correct if the layout ever reverts to scrolling the document.
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
   // Listen for URL changes, including browser Back and Forward.
   useEffect(() => {
     function handleHashChange() {
@@ -116,7 +129,7 @@ function App() {
       setPage(route.page);
       setSelectedCourse(route.course);
       setSidebarOpen(false);
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      scrollToTop();
     }
 
     window.addEventListener("hashchange", handleHashChange);
@@ -235,7 +248,7 @@ function App() {
 
     setPage(nextPage);
     setSidebarOpen(false);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    scrollToTop();
   }
 
   function toggleValue(value, values, setter) {
@@ -262,7 +275,7 @@ function App() {
     setSelectedCourse(course);
     setPage("course-detail");
     window.location.hash = `#course/${course.id}`;
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    scrollToTop();
   }
 
   function handleCourseAction(course) {
@@ -338,7 +351,7 @@ function App() {
           <div className="sidebar-copyright">© 2026 TalentPath IQ</div>
         </aside>
 
-        <main className="main-content">
+        <main className="main-content" ref={mainRef}>
           <button
             className="mobile-menu"
             type="button"
@@ -735,10 +748,7 @@ function App() {
                           disabled={currentPage === 1}
                           onClick={() => {
                             setCurrentPage((value) => value - 1);
-                            window.scrollTo({
-                              top: 0,
-                              behavior: "smooth",
-                            });
+                            scrollToTop();
                           }}
                         >
                           ‹
@@ -761,10 +771,7 @@ function App() {
                               }
                               onClick={() => {
                                 setCurrentPage(index + 1);
-                                window.scrollTo({
-                                  top: 0,
-                                  behavior: "smooth",
-                                });
+                                scrollToTop();
                               }}
                             >
                               {index + 1}
@@ -778,10 +785,7 @@ function App() {
                           disabled={currentPage === totalPages}
                           onClick={() => {
                             setCurrentPage((value) => value + 1);
-                            window.scrollTo({
-                              top: 0,
-                              behavior: "smooth",
-                            });
+                            scrollToTop();
                           }}
                         >
                           ›
