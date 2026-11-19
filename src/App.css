@@ -1,6 +1,4 @@
-
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
-
 * {
   margin: 0;
   padding: 0;
@@ -41,6 +39,11 @@ button {
   left: 0;
   bottom: 0;
   z-index: 20;
+  display: flex;
+  flex-direction: column;
+  width: 260px;
+  min-width: 260px;
+  height: 100vh;
   width: 260px;
   min-width: 260px;
   height: 100vh;
@@ -54,6 +57,14 @@ button {
   overflow-x: hidden;
   background: #0c1a2b;
   color: #fff;
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 0 5px 35px;
+  text-decoration: none;
 }
 
 .brand-mark {
@@ -112,8 +123,9 @@ button {
   background: #1a3049;
   color: #fff;
 }
-
 .nav-item.active {
+  background: linear-gradient(100deg, #2563eb 0%, #008bd0 60%, #06b6d4 100%);
+  color: #ffffff;
   background: linear-gradient(100deg, #2563eb, #008bd0 60%, #06b6d4);
   color: #fff;
   box-shadow: 0 5px 16px rgba(0, 174, 239, 0.18);
@@ -180,11 +192,8 @@ button {
   min-height: 100vh;
   margin-left: 260px;
   margin-left: 260px;
-  height: 100vh;
   padding: 32px 38px 40px;
   overflow-x: hidden;
-  overflow-y: auto;
-  scroll-behavior: smooth;
 }
 
 .mobile-menu {
@@ -471,6 +480,61 @@ button {
   color: #8490a2;
   font-size: 11px;
   white-space: nowrap;
+
+.catalogue-page {
+  display: block;
+  width: 100%;
+  min-height: 500px;
+  position: relative;
+}
+
+.catalogue-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.search-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: min(440px, 100%);
+  min-height: 43px;
+  padding: 0 13px;
+  border: 1px solid #e1e7ef;
+  border-radius: 8px;
+  background: #fff;
+  color: #8490a2;
+}
+
+.search-field > span {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.search-field input {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #202c40;
+  font-size: 12px;
+}
+
+.search-field:focus-within {
+  border-color: #6a94e9;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+}
+
+.sort-field {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #8490a2;
+  font-size: 11px;
+  white-space: nowrap;
 }
 
 .sort-field select {
@@ -484,11 +548,13 @@ button {
   font-size: 11px;
 }
 
-.text-back {
-  padding: 10px 0;
-  border: none;
-  background: transparent;
-  color: #2563eb;
+.sort-field select {
+  min-height: 40px;
+  padding: 0 30px 0 11px;
+  border: 1px solid #e1e7ef;
+  border-radius: 7px;
+  background: #fff;
+  color: #344258;
   font-size: 11px;
 }
 
@@ -637,6 +703,124 @@ button {
   gap: 17px;
 }
 
+}
+
+.filter-heading span {
+  color: #2563eb;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.filter-group {
+  padding: 17px 0 14px;
+  border-bottom: 1px solid #edf0f5;
+}
+
+.filter-group h3 {
+  margin-bottom: 12px;
+  color: #536177;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.filter-option {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 11px 0;
+  color: #647187;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.filter-option input {
+  width: 14px;
+  height: 14px;
+  accent-color: #2563eb;
+  cursor: pointer;
+}
+
+.filter-option small {
+  margin-left: auto;
+  color: #9aa5b4;
+  font-size: 10px;
+}
+
+.clear-filter-button {
+  width: 100%;
+  margin-top: 15px;
+  padding: 9px;
+  border: 1px solid #dce5f1;
+  border-radius: 6px;
+  background: #fff;
+  color: #356cc5;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.clear-filter-button:disabled {
+  background: #f8f9fb;
+  color: #aab4c1;
+  cursor: not-allowed;
+}
+
+.catalogue-results {
+  min-width: 0;
+}
+
+.results-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 2px 0 12px;
+  color: #8490a2;
+  font-size: 11px;
+}
+
+.results-heading strong {
+  color: #202c40;
+}
+
+.results-heading button {
+  border: 0;
+  background: transparent;
+  color: #2563eb;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.active-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-bottom: 14px;
+}
+
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 9px;
+  border: 1px solid #dce8fa;
+  border-radius: 20px;
+  background: #edf4ff;
+  color: #356cc5;
+  font-size: 10px;
+}
+
+.filter-chip span {
+  font-size: 14px;
+  line-height: 10px;
+}
+
+/* COURSE CARDS */
+
+.catalogue-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 17px;
+}
+
 .catalogue-card {
   display: flex;
   flex-direction: column;
@@ -658,14 +842,19 @@ button {
 .course-symbol {
   display: grid;
   place-items: center;
+  width: 58px;
+  height: 58px;
   width: 43px;
   height: 43px;
   margin-bottom: 17px;
-  border-radius: 9px;
+  border-radius: 13px;
+  background: #e7f8ef;
+  color: #15975b;
   font-size: 16px;
   font-weight: 800;
 }
 
+/* Category-specific colours */
 .course-symbol.java {
   background: #fff0ec;
   color: #e45b42;
@@ -980,6 +1169,52 @@ button {
   color: #8354db;
 }
 
+}
+
+/* COURSE DETAIL INFORMATION PANELS */
+
+.detail-content-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 17px;
+  margin-top: 19px;
+}
+
+.detail-panel {
+  padding: 23px;
+  border: 1px solid #e7ecf3;
+  border-radius: 11px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(25, 42, 70, 0.025);
+}
+
+.detail-summary {
+  grid-column: 1 / -1;
+}
+
+.detail-section-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 17px;
+}
+
+.detail-section-icon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 9px;
+  background: #eaf1ff;
+  color: #2563eb;
+  font-size: 21px;
+}
+
+.detail-section-icon.focus-icon {
+  background: #f1eaff;
+  color: #8354db;
+}
+
 .detail-section-icon.inclusion-icon {
   background: #e7f8ef;
   color: #15975b;
@@ -1233,13 +1468,25 @@ button {
   .inclusion-list {
     grid-template-columns: 1fr;
   }
-}
 
-@media (max-width: 420px) {
-  .main-content {
-    padding: 17px 13px 30px;
+  .search-field {
+    width: 100%;
   }
 
+  .sort-field {
+    justify-content: space-between;
+  }
+
+  .catalogue-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-panel {
+    padding: 15px;
+  }
+
+  .detail-page-heading {
+    margin-bottom: 18px;
   .entry-tag {
     font-size: 10px;
   }
@@ -1260,8 +1507,12 @@ button {
   .detail-meta {
     gap: 10px;
   }
-}
 
+  .detail-hero {
+    grid-template-columns: 52px minmax(0, 1fr);
+    gap: 14px;
+    padding: 19px;
+  }
 /* TPIQ-52: course catalogue filters and account navigation */
 .account-nav:hover, .account-nav.active { background: #1a3049; color: #fff; }
 .catalogue-card .course-level { font-size: 9px; }
@@ -1295,80 +1546,108 @@ button {
   text-decoration: none;
 }
 
-.sidebar-brand .brand-mark {
-  display: block;
-  width: 43px !important;
-  height: 43px !important;
-  min-width: 58px;
-  object-fit: contain;
-  flex-shrink: 0;
+  .detail-symbol {
+    width: 48px;
+    height: 48px;
+  }
+
+  .detail-hero-copy h1 {
+    font-size: 20px;
+  }
+
+  .detail-action {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  .detail-content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-summary {
+    grid-column: auto;
+  }
+
+  .detail-panel {
+    padding: 18px;
+  }
+
+  .focus-list,
+  .inclusion-list {
+    grid-template-columns: 1fr;
+  }
 }
 
-.sidebar-brand .wordmark {
+@media (max-width: 420px) {
+  .main-content {
+    padding: 17px 13px 30px;
+  }
+
+  .entry-tag {
+    font-size: 10px;
+  }
+
+  .pagination {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .detail-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-action {
+    grid-column: auto;
+  }
+
+  .detail-meta {
+    gap: 10px;
+  }
+}
+
+/* TPIQ-54 enrolment experience */
+.detail-action { display:flex; flex-direction:column; align-items:flex-end; gap:12px; min-width:220px; }
+.detail-action-buttons { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:10px; }
+.enrolled-label { color:#00845a; font-size:14px; font-weight:700; }
+.enrolment-error { display:flex; justify-content:space-between; align-items:center; gap:16px; margin:16px 0 20px; padding:14px 18px; border:1px solid #fecaca; border-radius:12px; background:#fff1f2; color:#b42318; font-size:14px; }
+.enrolment-error-copy { display:flex; flex-direction:column; gap:5px; min-width:0; }
+.enrolment-error-detail { color:#7f1d1d; font-size:12px; overflow-wrap:anywhere; }
+.modal-backdrop { position:fixed; inset:0; z-index:1000; display:grid; place-items:center; padding:20px; background:rgba(15,23,42,.48); }
+.enrolment-modal { width:min(100%,530px); padding:26px; border-radius:14px; background:#fff; box-shadow:0 24px 70px rgba(15,23,42,.24); }
+.enrolment-modal h2 { margin:0 0 16px; color:#23344d; font-size:21px; line-height:1.35; }
+.enrolment-summary { display:grid; gap:10px; margin:0 0 16px; padding:16px; border-radius:10px; background:#f0f4f8; }
+.enrolment-summary div { display:grid; grid-template-columns:88px 1fr; gap:10px; }
+.enrolment-summary dt { color:#64748b; }
+.enrolment-summary dd { margin:0; color:#24364f; font-weight:650; }
+.enrolment-modal > p { margin:0 0 18px; color:#334155; font-size:14px; line-height:1.65; }
+.enrolment-modal-actions { display:flex; justify-content:flex-end; gap:10px; }
+.enrolment-modal .btn:disabled { cursor:not-allowed; opacity:.7; }
+.button-spinner { width:14px; height:14px; border:2px solid rgba(255,255,255,.45); border-top-color:#fff; border-radius:50%; display:inline-block; animation:enrol-spin .7s linear infinite; }
+@keyframes enrol-spin { to { transform:rotate(360deg); } }
+@media (max-width:640px) {
+  .detail-action { align-items:stretch; width:100%; min-width:0; }
+  .detail-action-buttons { justify-content:stretch; }
+  .detail-action-buttons .btn { flex:1; }
+  .enrolment-error { align-items:flex-start; flex-direction:column; }
+  .enrolment-modal { padding:21px; }
+  .enrolment-modal-actions { flex-direction:column-reverse; }
+  .enrolment-modal-actions .btn { width:100%; }
+}
+
+
+/* TPIQ course detail: difficulty badge sits beside the course name */
+.detail-title-row {
   display: flex;
   align-items: center;
-  font-size: 23px !important;
-  line-height: 1.2;
-  font-weight: 800;
-  white-space: nowrap;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
-.sidebar-nav .nav-item {
-  min-height: 48px;
-  padding: 11px 14px;
-  font-size: 14px !important;
-  line-height: 1.25;
+.detail-title-row h1 {
+  margin: 8px 0 7px;
 }
 
-.sidebar-nav .nav-icon {
-  width: 27px;
-  height: 27px;
-  flex: 0 0 27px;
-}
-
-@media (min-width: 761px) {
-  .workspace {
-    min-height: 100vh;
-  }
-
-  .sidebar {
-    position: fixed;
-    inset: 0 auto 0 0;
-    height: 100vh;
-    z-index: 20;
-  }
-
-  .main-content {
-    width: calc(100% - 260px);
-    min-width: 0;
-    margin-left: 260px;
-    height: 100vh;
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
-}
-
-@media (max-width: 760px) {
-  .sidebar {
-    position: fixed;
-    inset: 0 auto 0 -280px;
-    width: 260px !important;
-    min-width: 260px !important;
-    max-width: 260px;
-    height: 100dvh;
-    padding: 20px 17px 18px;
-    transition: left 0.25s ease;
-  }
-
-  .sidebar.open {
-    left: 0;
-  }
-
-  .main-content {
-    width: 100%;
-    margin-left: 0;
-    height: 100dvh;
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
+.detail-title-row .level-pill {
+  flex: 0 0 auto;
+  margin-top: 1px;
 }

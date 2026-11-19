@@ -2,7 +2,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from .models import Course
+from .models import Course, Enrolment
 
 
 def make_course(**overrides):
@@ -228,3 +228,63 @@ class CourseWriteAPITests(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertIn("title", response.data)
+
+
+class DemoEnrolmentAPITests(APITestCase):
+    DEMO_STUDENT_ID = "12e24043-258c-449b-b58b-5c6d4e0322c3"
+
+    def setUp(self):
+        from django.test import override_settings
+        self.settings_override = override_settings(DEMO_STUDENT_ID=self.DEMO_STUDENT_ID)
+        self.settings_override.enable()
+        self.addCleanup(self.settings_override.disable)
+        self.url = reverse("enrolment-list")
+        self.course = make_course(title="Python Fundamentals")
+
+    def test_create_uses_fixed_demo_student_and_returns_defaults(self):
+        response = self.client.post(
+            self.url,
+            {"courseId": self.course.pk},
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data["studentId"], self.DEMO_STUDENT_ID)
+        self.assertEqual(response.data["courseId"], self.course.pk)
+        self.assertEqual(response.data["status"], "not_started")
+        self.assertEqual(response.data["progressPercent"], 0)
+
+    def test_duplicate_enrolment_returns_conflict_without_duplicate_row(self):
+        first = self.client.post(self.url, {"courseId": self.course.pk}, format="json")
+        second = self.client.post(self.url, {"courseId": self.course.pk}, format="json")
+
+        self.assertEqual(first.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(second.status_code, status.HTTP_409_CONFLICT)
+        self.assertEqual(Enrolment.objects.count(), 1)
+
+    def test_list_returns_only_fixed_demo_student_enrolments(self):
+        Enrolment.objects.create(student_id=self.DEMO_STUDENT_ID, course=self.course)
+        other_course = make_course(title="Other Course")
+        Enrolment.objects.create(
+            student_id="aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+            course=other_course,
+        )
+
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]["courseId"], self.course.pk)
+
+    def test_student_id_from_request_cannot_override_demo_student(self):
+        response = self.client.post(
+            self.url,
+            {
+                "studentId": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+                "courseId": self.course.pk,
+            },
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data["studentId"], self.DEMO_STUDENT_ID)
