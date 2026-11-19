@@ -1,43 +1,7 @@
-
 import { useEffect, useMemo, useRef, useState } from "react";
 import "./App.css";
 import logoMark from "./assets/talentpath-logo.png";
 
-const courses = [
-  { id: 1, title: "Java Fundamentals", category: "Java", level: "Beginner", description: "Learn Java syntax, variables, control flow and object-oriented programming.", skills: ["Java", "OOP", "Programming"], updated: "2026-10-28", duration: "4 weeks" },
-  { id: 2, title: "Core Java Programming", category: "Java", level: "Intermediate", description: "Build strong foundations in collections, exceptions, streams and file handling.", skills: ["Java", "Collections", "Streams"], updated: "2026-10-24", duration: "6 weeks" },
-  { id: 3, title: "Advanced Java & Multithreading", category: "Java", level: "Expert", description: "Explore concurrency, JVM concepts and advanced Java application patterns.", skills: ["Java", "JVM", "Concurrency"], updated: "2026-10-20", duration: "5 weeks" },
-  { id: 4, title: "Python for Beginners", category: "Python", level: "Beginner", description: "Start programming with Python fundamentals, data types and functions.", skills: ["Python", "Syntax", "Functions"], updated: "2026-11-02", duration: "3 weeks" },
-  { id: 5, title: "Python Data Structures", category: "Python", level: "Intermediate", description: "Work with lists, dictionaries, sets, comprehensions and problem solving.", skills: ["Python", "Data structures", "Algorithms"], updated: "2026-10-30", duration: "4 weeks" },
-  { id: 6, title: "Advanced Python Development", category: "Python", level: "Expert", description: "Deepen your Python skills with decorators, generators, async and testing.", skills: ["Python", "Async", "Testing"], updated: "2026-10-17", duration: "5 weeks" },
-  { id: 7, title: "REST API Fundamentals", category: "REST", level: "Beginner", description: "Understand HTTP methods, status codes, resources and API basics.", skills: ["REST", "HTTP", "API"], updated: "2026-11-04", duration: "2 weeks" },
-  { id: 8, title: "REST API Testing", category: "REST", level: "Intermediate", description: "Validate API contracts, requests, responses and common error scenarios.", skills: ["REST", "API testing", "Postman"], updated: "2026-10-26", duration: "3 weeks" },
-  { id: 9, title: "REST API Design & Security", category: "REST", level: "Expert", description: "Design scalable APIs with authentication, authorization and versioning.", skills: ["REST", "Security", "API design"], updated: "2026-10-15", duration: "5 weeks" },
-  { id: 10, title: "Java Object-Oriented Concepts", category: "Java", level: "Beginner", description: "Understand classes, objects, inheritance, polymorphism and interfaces.", skills: ["Java", "OOP"], updated: "2026-10-12", duration: "3 weeks" },
-  { id: 11, title: "Java Collections Framework", category: "Java", level: "Intermediate", description: "Choose and use Java collection types effectively in applications.", skills: ["Java", "Collections"], updated: "2026-10-09", duration: "4 weeks" },
-  { id: 12, title: "Java Performance Tuning", category: "Java", level: "Expert", description: "Profile applications and improve memory usage and runtime performance.", skills: ["Java", "Performance", "JVM"], updated: "2026-10-06", duration: "4 weeks" },
-  { id: 13, title: "Python Functions & Modules", category: "Python", level: "Beginner", description: "Organize reusable code using functions, modules and packages.", skills: ["Python", "Functions"], updated: "2026-10-04", duration: "2 weeks" },
-  { id: 14, title: "Python Object-Oriented Programming", category: "Python", level: "Intermediate", description: "Model real-world problems using classes, inheritance and composition.", skills: ["Python", "OOP"], updated: "2026-10-01", duration: "4 weeks" },
-  { id: 15, title: "Python Automation", category: "Python", level: "Expert", description: "Automate workflows with robust scripts, logging and exception handling.", skills: ["Python", "Automation"], updated: "2026-09-28", duration: "5 weeks" },
-  { id: 16, title: "HTTP & REST Essentials", category: "REST", level: "Beginner", description: "Explore endpoints, headers, payloads and the request-response cycle.", skills: ["REST", "HTTP"], updated: "2026-09-25", duration: "2 weeks" },
-  { id: 17, title: "REST API Integration", category: "REST", level: "Intermediate", description: "Connect services and handle API responses, errors and pagination.", skills: ["REST", "Integration"], updated: "2026-09-22", duration: "3 weeks" },
-  { id: 18, title: "Microservices API Patterns", category: "REST", level: "Expert", description: "Apply API gateway, resilience and service communication patterns.", skills: ["REST", "Microservices"], updated: "2026-09-19", duration: "6 weeks" },
-  { id: 19, title: "Java Exception Handling", category: "Java", level: "Beginner", description: "Write reliable programs with exceptions and defensive coding.", skills: ["Java", "Exceptions"], updated: "2026-09-16", duration: "2 weeks" },
-  { id: 20, title: "Java Database Connectivity", category: "Java", level: "Intermediate", description: "Connect Java applications to relational databases using JDBC.", skills: ["Java", "JDBC", "SQL"], updated: "2026-09-13", duration: "3 weeks" },
-  { id: 21, title: "Java Design Patterns", category: "Java", level: "Expert", description: "Apply common object-oriented design patterns to maintainable software.", skills: ["Java", "Design patterns"], updated: "2026-09-10", duration: "5 weeks" },
-  { id: 22, title: "Python Strings & Collections", category: "Python", level: "Beginner", description: "Manipulate strings and collections to solve everyday coding tasks.", skills: ["Python", "Strings"], updated: "2026-09-07", duration: "2 weeks" },
-  { id: 23, title: "Python File Handling", category: "Python", level: "Intermediate", description: "Read, write and process files while managing errors and resources.", skills: ["Python", "Files"], updated: "2026-09-04", duration: "3 weeks" },
-  { id: 24, title: "Python Async Programming", category: "Python", level: "Expert", description: "Build concurrent applications with asyncio and asynchronous I/O.", skills: ["Python", "Async"], updated: "2026-09-01", duration: "4 weeks" },
-  { id: 25, title: "REST Status Codes & Errors", category: "REST", level: "Beginner", description: "Interpret HTTP status codes and create consistent error responses.", skills: ["REST", "HTTP"], updated: "2026-08-29", duration: "2 weeks" },
-  { id: 26, title: "REST Authentication", category: "REST", level: "Intermediate", description: "Understand tokens, API keys and authentication flows for APIs.", skills: ["REST", "Authentication"], updated: "2026-08-26", duration: "3 weeks" },
-  { id: 27, title: "REST API Scalability", category: "REST", level: "Expert", description: "Improve API throughput with caching, rate limiting and observability.", skills: ["REST", "Scalability"], updated: "2026-08-23", duration: "5 weeks" },
-  { id: 28, title: "Java Algorithms Practice", category: "Java", level: "Intermediate", description: "Strengthen algorithmic thinking with Java coding exercises.", skills: ["Java", "Algorithms"], updated: "2026-08-20", duration: "4 weeks" },
-  { id: 29, title: "Python Problem Solving", category: "Python", level: "Intermediate", description: "Solve practical programming challenges using Python.", skills: ["Python", "Problem solving"], updated: "2026-08-17", duration: "3 weeks" },
-  { id: 30, title: "REST API Architecture", category: "REST", level: "Expert", description: "Structure API resources and contracts for long-lived services.", skills: ["REST", "Architecture"], updated: "2026-08-14", duration: "5 weeks" },
-];
-
-const categories = ["Java", "Python", "REST"];
-const levels = ["Beginner", "Intermediate", "Expert"];
 const pageSize = 6;
 
 
@@ -86,7 +50,10 @@ function getCourseSymbol(course) {
 }
 
 function App() {
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8002/api";
+  // VITE_API_BASE_URL is the backend *origin* (set on Railway at build time).
+  // Empty locally/in Docker, so requests use relative /api paths that the
+  // Vite dev server and nginx proxy to Django.
+  const API_BASE_URL = `${(import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "")}/api`;
   const [courses, setCourses] = useState([]);
   const [coursesLoading, setCoursesLoading] = useState(true);
   const [coursesError, setCoursesError] = useState("");
@@ -110,48 +77,16 @@ function App() {
   }
 
   function getRouteFromHash(courseList = courses) {
-}
-
-function App() {
-  function getRouteFromHash() {
     const hash = window.location.hash;
 
     if (hash.startsWith("#course/")) {
       const courseId = Number(hash.split("/")[1]);
       const course = courseList.find((item) => item.id === courseId);
-      const course = courses.find((item) => item.id === courseId);
 
       if (course) {
         return { page: "course-detail", course };
       }
       return { page: "course-detail", course: null };
-    }
-
-    if (hash === "#catalogue") {
-      return { page: "catalogue", course: null };
-    }
-
-    if (hash === "#account") {
-      return { page: "account", course: null };
-    }
-
-    return { page: "trainings", course: null };
-  }
-
-  const [page, setPage] = useState(() => getRouteFromHash().page);
-  const [selectedCourse, setSelectedCourse] = useState(
-    () => getRouteFromHash().course
-  );
-
-  // Restore enrolments when the page loads so refreshes do not reset the button.
-  const [enrolledCourses, setEnrolledCourses] = useState(() => {
-    try {
-      const saved = window.localStorage.getItem("talentpathiq-enrolled-courses");
-      const parsed = saved ? JSON.parse(saved) : [];
-      return Array.isArray(parsed) ? parsed : [];
-    } catch (error) {
-      console.error("Unable to load saved course enrolments:", error);
-      return [];
     }
 
     if (hash === "#catalogue") {
@@ -187,19 +122,6 @@ function App() {
   const [sortBy, setSortBy] = useState("recent");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const categories = useMemo(
-    () => [...new Set(courses.map((course) => course.category).filter(Boolean))].sort(),
-    [courses]
-  );
-  const levels = useMemo(
-    () => [...new Set(courses.map((course) => course.level).filter(Boolean))].sort(
-      (a, b) => ({ Beginner: 1, Intermediate: 2, Expert: 3 }[a] || 99) -
-                ({ Beginner: 1, Intermediate: 2, Expert: 3 }[b] || 99)
-    ),
-    [courses]
-  );
-
-  // Load the catalogue from Django/PostgreSQL instead of a hardcoded frontend array.
   // .main-content is height:100vh with overflow-y:auto at every breakpoint,
   // so it — not the window — is what actually scrolls. window.scrollTo()
   // silently does nothing here, which is why paging left you at the bottom.
@@ -213,24 +135,19 @@ function App() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  // Listen for URL changes, including browser Back and Forward.
-  useEffect(() => {
-    function handleHashChange() {
-      const route = getRouteFromHash();
+  const categories = useMemo(
+    () => [...new Set(courses.map((course) => course.category).filter(Boolean))].sort(),
+    [courses]
+  );
+  const levels = useMemo(
+    () => [...new Set(courses.map((course) => course.level).filter(Boolean))].sort(
+      (a, b) => ({ Beginner: 1, Intermediate: 2, Expert: 3 }[a] || 99) -
+                ({ Beginner: 1, Intermediate: 2, Expert: 3 }[b] || 99)
+    ),
+    [courses]
+  );
 
-      setPage(route.page);
-      setSelectedCourse(route.course);
-      setSidebarOpen(false);
-      scrollToTop();
-    }
-
-    window.addEventListener("hashchange", handleHashChange);
-
-    return () => {
-      window.removeEventListener("hashchange", handleHashChange);
-    };
-  }, []);
-  // Persist enrolments locally between refreshes.
+  // Load the catalogue from Django/PostgreSQL instead of a hardcoded frontend array.
   useEffect(() => {
     let cancelled = false;
     async function loadCourses() {
@@ -277,7 +194,7 @@ function App() {
       setPage(route.page);
       setSelectedCourse(route.course);
       setSidebarOpen(false);
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      scrollToTop();
     }
 
     window.addEventListener("hashchange", handleHashChange);
@@ -291,7 +208,6 @@ function App() {
     if (!toast) return undefined;
 
     const timer = window.setTimeout(() => setToast(""), 4000);
-    const timer = window.setTimeout(() => setToast(""), 2600);
 
     return () => window.clearTimeout(timer);
   }, [toast]);
@@ -368,47 +284,6 @@ function App() {
     currentPage * pageSize
   );
 
-        `${course.title} ${course.category} ${course.level} ${course.description} ${course.skills.join(" ")}`.toLowerCase();
-
-      return matchesCategory && matchesLevel && (!query || searchable.includes(query));
-    });
-
-    const levelOrder = {
-      Beginner: 1,
-      Intermediate: 2,
-      Expert: 3,
-    };
-
-    const titleCollator = new Intl.Collator("en", {
-      sensitivity: "base",
-      numeric: true,
-    });
-
-    return result.sort((a, b) => {
-      if (sortBy === "alphabetical") {
-        return titleCollator.compare(a.title, b.title);
-      }
-
-      const levelDifference = levelOrder[a.level] - levelOrder[b.level];
-
-      if (levelDifference !== 0) {
-        return levelDifference;
-      }
-
-      return new Date(b.updated) - new Date(a.updated);
-    });
-  }, [selectedCategories, selectedLevels, search, sortBy]);
-
-  const totalPages = Math.max(
-    1,
-    Math.ceil(filteredCourses.length / pageSize)
-  );
-
-  const visibleCourses = filteredCourses.slice(
-    (currentPage - 1) * pageSize,
-    currentPage * pageSize
-  );
-
   const activeFilterCount =
     selectedCategories.length + selectedLevels.length;
 
@@ -432,28 +307,6 @@ function App() {
     setSelectedCourse(null);
     setSidebarOpen(false);
 
-    setCurrentPage(1);
-  }, [selectedCategories, selectedLevels, search, sortBy]);
-
-  useEffect(() => {
-    if (currentPage > totalPages) {
-      setCurrentPage(totalPages);
-    }
-  }, [currentPage, totalPages]);
-
-  function navigate(nextPage) {
-    // Reset search and filters only when returning to Trainings.
-    if (nextPage === "trainings") {
-      setSearch("");
-      setSelectedCategories([]);
-      setSelectedLevels([]);
-      setCurrentPage(1);
-      setSortBy("recent");
-      setSelectedCourse(null);
-    }
-
-    // The hash must be updated for every destination, not just Trainings,
-    // or #catalogue and #account are never reachable by URL.
     const routes = {
       trainings: "#trainings",
       catalogue: "#catalogue",
@@ -462,9 +315,6 @@ function App() {
 
     window.location.hash = routes[nextPage] || "#trainings";
 
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    setPage(nextPage);
-    setSidebarOpen(false);
     scrollToTop();
   }
 
@@ -492,7 +342,6 @@ function App() {
     setSelectedCourse(course);
     setPage("course-detail");
     window.location.hash = `#course/${course.id}`;
-    window.scrollTo({ top: 0, behavior: "smooth" });
     scrollToTop();
   }
 
@@ -566,12 +415,6 @@ function App() {
   function handleCourseAction(course) {
     if (!enrolledCourses.includes(course.id)) { openEnrolmentDialog(); return; }
     setToast(`Opening ${course.title}…`);
-
-    setToast(`Resuming ${course.title}.`);
-    setEnrolledCourses((current) =>
-      current.includes(course.id) ? current : [...current, course.id]
-    );
-    setToast(`You are enrolled in ${course.title}.`);
   }
 
 
@@ -609,7 +452,6 @@ function App() {
             <button
               className={`nav-item ${
                 ["trainings", "catalogue", "course-detail", "account"].includes(page) ? "active" : ""
-                ["trainings", "catalogue"].includes(page) ? "active" : ""
               }`}
               type="button"
               onClick={() => navigate("trainings")}
@@ -636,7 +478,6 @@ function App() {
           <div className="sidebar-copyright">© 2026 TalentPath IQ</div>
         </aside>
 
-        <main className="main-content">
         <main className="main-content" ref={mainRef}>
           <button
             className="mobile-menu"
@@ -766,333 +607,6 @@ function App() {
           {/* COURSE CATALOGUE PAGE */}
           {page === "catalogue" && (
             <section className="catalogue-page" id="catalogue">
-            </section>
-          )}
-
-          {/* COURSE CATALOGUE PAGE */}
-          {page === "catalogue" && (
-            <section className="catalogue-page" id="catalogue">
-              <div className="breadcrumb">
-                <span>HOME</span>
-                <span className="slash">/</span>
-                <span>TRAININGS</span>
-                <span className="slash">/</span>
-                <span>COURSES</span>
-              </div>
-
-              <div className="page-heading">
-                <div>
-                  <button
-                    className="text-back"
-                    type="button"
-                    onClick={() => navigate("trainings")}
-                  >
-                    ← Back to trainings
-                  </button>
-
-                  <h1>Course Catalogue</h1>
-                  <p>
-                    Explore courses and narrow your learning path by category
-                    and difficulty.
-                  </p>
-                </div>
-              </div>
-
-              <div className="catalogue-toolbar">
-                <label className="search-field">
-                  <span aria-hidden="true">⌕</span>
-
-                  <input
-                    type="search"
-                    placeholder="Search courses or skills"
-                    value={search}
-                    onChange={(event) => setSearch(event.target.value)}
-                    aria-label="Search courses or skills"
-                  />
-                </label>
-
-                <label className="sort-field">
-                  <span>Sort by</span>
-
-                  <select
-                    value={sortBy}
-                    onChange={(event) => setSortBy(event.target.value)}
-                    aria-label="Sort courses"
-                  >
-                    <option value="recent">Recently added</option>
-                    <option value="alphabetical">Alphabetical</option>
-                  </select>
-                </label>
-              </div>
-
-              <div className="catalogue-layout">
-                <aside className="filter-panel" aria-label="Course filters">
-                  <div className="filter-heading">
-                    <h2>Filters</h2>
-                    {activeFilterCount > 0 && (
-                      <span>{activeFilterCount} active</span>
-                    )}
-                  </div>
-
-                  <div className="filter-group">
-                    <h3>Category</h3>
-
-                    {categories.map((category) => (
-                      <label className="filter-option" key={category}>
-                        <input
-                          type="checkbox"
-                          checked={selectedCategories.includes(category)}
-                          onChange={() =>
-                            toggleValue(
-                              category,
-                              selectedCategories,
-                              setSelectedCategories
-                            )
-                          }
-                        />
-
-                        <span>{category}</span>
-
-                        <small>
-                          {
-                            courses.filter(
-                              (course) => course.category === category
-                            ).length
-                          }
-                        </small>
-                      </label>
-                    ))}
-                  </div>
-
-                  <div className="filter-group">
-                    <h3>Difficulty</h3>
-
-                    {levels.map((level) => (
-                      <label className="filter-option" key={level}>
-                        <input
-                          type="checkbox"
-                          checked={selectedLevels.includes(level)}
-                          onChange={() =>
-                            toggleValue(
-                              level,
-                              selectedLevels,
-                              setSelectedLevels
-                            )
-                          }
-                        />
-
-                        <span>{level}</span>
-                      </label>
-                    ))}
-                  </div>
-
-                  {/* Clears category and difficulty only, not search. */}
-                  <button
-                    className="clear-filter-button"
-                    type="button"
-                    onClick={clearFilters}
-                    disabled={!activeFilterCount}
-                  >
-                    Clear all filters
-                  </button>
-                </aside>
-
-                <div className="catalogue-results">
-                  <div className="results-heading">
-                    <p>
-                      <strong>{filteredCourses.length}</strong> courses found
-                    </p>
-                  </div>
-
-                  {(activeFilterCount > 0 || search) && (
-                    <div className="active-chips" aria-label="Active filters">
-                      {selectedCategories.map((item) => (
-                        <button
-                          key={item}
-                          type="button"
-                          className="filter-chip"
-                          onClick={() =>
-                            toggleValue(
-                              item,
-                              selectedCategories,
-                              setSelectedCategories
-                            )
-                          }
-                        >
-                          {item} <span>×</span>
-                        </button>
-                      ))}
-
-                      {selectedLevels.map((item) => (
-                        <button
-                          key={item}
-                          type="button"
-                          className="filter-chip"
-                          onClick={() =>
-                            toggleValue(
-                              item,
-                              selectedLevels,
-                              setSelectedLevels
-                            )
-                          }
-                        >
-                          {item} <span>×</span>
-                        </button>
-                      ))}
-
-                      {search && (
-                        <button
-                          type="button"
-                          className="filter-chip"
-                          onClick={() => setSearch("")}
-                        >
-                          Search: {search} <span>×</span>
-                        </button>
-                      )}
-                    </div>
-                  )}
-
-                  {visibleCourses.length > 0 ? (
-                    <div className="catalogue-grid">
-                      {visibleCourses.map((course) => (
-                        <article
-                          className="catalogue-card"
-                          key={course.id}
-                        >
-                          <div
-                            className={`course-symbol ${course.category.toLowerCase()}`}
-                          >
-                            {course.category === "REST"
-                              ? "API"
-                              : course.category === "Java"
-                                ? "J"
-                                : "Py"}
-                          </div>
-
-                          <div className="catalogue-card-copy">
-                            <div className="course-card-topline">
-                              <span className="course-level">
-                                {course.category.toUpperCase()}
-                              </span>
-
-                              <span
-                                className={`level-pill ${course.level.toLowerCase()}`}
-                              >
-                                {course.level}
-                              </span>
-                            </div>
-
-                            <h3>{course.title}</h3>
-                            <p>{course.description}</p>
-
-                            <div className="course-meta">
-                              <span>◷ {course.duration}</span>
-
-                              <span>
-                                Updated{" "}
-                                {new Date(course.updated).toLocaleDateString(
-                                  "en-IN",
-                                  {
-                                    day: "numeric",
-                                    month: "short",
-                                    year: "numeric",
-                                  }
-                                )}
-                              </span>
-                            </div>
-                          </div>
-
-                          <button
-                            className="btn btn-outline catalogue-action"
-                            type="button"
-                            onClick={() => openCourse(course)}
-                          >
-                            View course <span>→</span>
-                          </button>
-                        </article>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="empty-state">
-                      <div className="empty-icon">⌕</div>
-                      <h3>No courses found</h3>
-                      <p>
-                        Try changing your search or removing some filters.
-                      </p>
-                    </div>
-                  )}
-
-                  {filteredCourses.length > 0 && (
-                    <div className="pagination">
-                      <span>
-                        Showing {(currentPage - 1) * pageSize + 1}–
-                        {Math.min(
-                          currentPage * pageSize,
-                          filteredCourses.length
-                        )}{" "}
-                        of {filteredCourses.length}
-                      </span>
-
-                      <div className="pagination-controls">
-                        <button
-                          type="button"
-                          aria-label="Previous page"
-                          disabled={currentPage === 1}
-                          onClick={() => {
-                            setCurrentPage((value) => value - 1);
-                            scrollToTop();
-                          }}
-                        >
-                          ‹
-                        </button>
-
-                        {Array.from(
-                          { length: totalPages },
-                          (_, index) => (
-                            <button
-                              type="button"
-                              key={index + 1}
-                              className={
-                                currentPage === index + 1 ? "selected" : ""
-                              }
-                              aria-label={`Page ${index + 1}`}
-                              aria-current={
-                                currentPage === index + 1
-                                  ? "page"
-                                  : undefined
-                              }
-                              onClick={() => {
-                                setCurrentPage(index + 1);
-                                scrollToTop();
-                              }}
-                            >
-                              {index + 1}
-                            </button>
-                          )
-                        )}
-
-                        <button
-                          type="button"
-                          aria-label="Next page"
-                          disabled={currentPage === totalPages}
-                          onClick={() => {
-                            setCurrentPage((value) => value + 1);
-                            scrollToTop();
-                          }}
-                        >
-                          ›
-                        </button>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </section>
-          )}
-
-          {/* COURSE DETAILS PAGE */}
-          {page === "course-detail" && selectedCourse && (
-            <section className="course-detail-page">
               <div className="breadcrumb">
                 <span>HOME</span>
                 <span className="slash">/</span>
@@ -1367,10 +881,7 @@ function App() {
                           disabled={currentPage === 1}
                           onClick={() => {
                             setCurrentPage((value) => value - 1);
-                            window.scrollTo({
-                              top: 0,
-                              behavior: "smooth",
-                            });
+                            scrollToTop();
                           }}
                         >
                           ‹
@@ -1393,10 +904,7 @@ function App() {
                               }
                               onClick={() => {
                                 setCurrentPage(index + 1);
-                                window.scrollTo({
-                                  top: 0,
-                                  behavior: "smooth",
-                                });
+                                scrollToTop();
                               }}
                             >
                               {index + 1}
@@ -1410,10 +918,7 @@ function App() {
                           disabled={currentPage === totalPages}
                           onClick={() => {
                             setCurrentPage((value) => value + 1);
-                            window.scrollTo({
-                              top: 0,
-                              behavior: "smooth",
-                            });
+                            scrollToTop();
                           }}
                         >
                           ›
@@ -1455,26 +960,6 @@ function App() {
                 </p>
               </div>
 
-                <span className="slash">/</span>
-                <span>COURSE DETAILS</span>
-              </div>
-
-              <div className="detail-page-heading">
-                <button
-                  className="text-back"
-                  type="button"
-                  onClick={() => navigate("catalogue")}
-                >
-                  ← Back to course catalogue
-                </button>
-
-                <h1>Course Details</h1>
-                <p>
-                  Explore the course content, key focus areas and learning
-                  experience.
-                </p>
-              </div>
-
               <section className="detail-hero">
                 <div
                   className={`course-symbol detail-symbol ${selectedCourse.category.toLowerCase()}`}
@@ -1491,27 +976,12 @@ function App() {
 
                   <div className="detail-title-row">
                     <h1>{selectedCourse.title}</h1>
-                  {selectedCourse.category === "REST"
-                    ? "API"
-                    : selectedCourse.category === "Java"
-                      ? "J"
-                      : "Py"}
-                </div>
-
-                <div className="detail-hero-copy">
-                  <div className="course-card-topline">
-                    <span className="course-level">
-                      {selectedCourse.category.toUpperCase()}
-                    </span>
-
                     <span
                       className={`level-pill ${selectedCourse.level.toLowerCase()}`}
                     >
                       {selectedCourse.level}
                     </span>
                   </div>
-
-                  <h1>{selectedCourse.title}</h1>
                   <p className="course-description">
                     {selectedCourse.description}
                   </p>
@@ -1562,30 +1032,6 @@ function App() {
                 </div>
               )}
 
-                  <span
-                    className={
-                      enrolledCourses.includes(selectedCourse.id)
-                        ? "enrolled-label"
-                        : "not-enrolled-label"
-                    }
-                  >
-                    {enrolledCourses.includes(selectedCourse.id)
-                      ? "You are enrolled"
-                      : "Not enrolled"}
-                  </span>
-
-                  <button
-                    className="btn btn-primary"
-                    type="button"
-                    onClick={() => handleCourseAction(selectedCourse)}
-                  >
-                    {enrolledCourses.includes(selectedCourse.id)
-                      ? "Enrolled"
-                      : "Enrol now"}
-                  </button>
-                </div>
-              </section>
-
               <div className="detail-content-grid">
                 <article className="detail-panel detail-summary">
                   <div className="detail-section-heading">
@@ -1616,7 +1062,6 @@ function App() {
 
                   <ul className="focus-list">
                     {(selectedCourse.skills || [selectedCourse.category]).map((skill) => (
-                    {selectedCourse.skills.map((skill) => (
                       <li key={skill}>
                         <span>✓</span>
                         {skill}

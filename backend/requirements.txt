@@ -9,3 +9,6 @@ whitenoise==6.11.0
 
 # Parses Railway's DATABASE_URL
 dj-database-url==3.0.1
+
+# Loads backend/.env in local development (imported by config/settings.py)
+python-dotenv==1.1.1
