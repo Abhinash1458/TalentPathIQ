@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import "./App.css";
 import logoMark from "./assets/talentpath-logo.png";
 import MyLearning from "./pages/Mylearning.jsx";
+import CourseContent from "./pages/CourseWorkspace/coursecontent.jsx";
 
 const pageSize = 6;
 
@@ -96,6 +97,10 @@ function App() {
 
     if (hash === "#my-learning") {
       return { page: "my-learning", course: null };
+    }
+
+    if (hash === "#course-content") {
+      return { page: "course-content", course: null };
     }
 
     if (hash === "#account") {
@@ -316,6 +321,7 @@ function App() {
       trainings: "#trainings",
       catalogue: "#catalogue",
       "my-learning": "#my-learning",
+      "course-content": "#course-content",
       account: "#account",
     };
 
@@ -430,8 +436,16 @@ function App() {
       <MyLearning
         onBackToTrainings={() => navigate("trainings")}
         onGoToCourses={() => navigate("catalogue")}
+        onOpenWorkspace={() => navigate("course-content")}
       />
     );
+  }
+
+  // TPIQ-57: the course workspace also has its own sidebar/layout. Its
+  // links are plain #hash anchors, which the hashchange listener above
+  // routes back into the app.
+  if (page === "course-content") {
+    return <CourseContent />;
   }
 
   return (
@@ -1034,7 +1048,7 @@ function App() {
                       </span>
                       <div className="detail-action-buttons">
                         <button className="btn btn-outline" type="button" onClick={() => navigate("my-learning")}>Go to My learning</button>
-                        <button className="btn btn-primary" type="button" onClick={() => setToast("Course workspace (TPIQ-57) is not part of this story.")}>Start course <span>→</span></button>
+                        <button className="btn btn-primary" type="button" onClick={() => navigate("course-content")}>Start course <span>→</span></button>
                       </div>
                     </>
                   ) : (
