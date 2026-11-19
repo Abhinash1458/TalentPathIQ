@@ -1,6 +1,6 @@
 
 import { useState, useMemo, useEffect } from "react";
-import "./MyLearning.css";
+import "./Mylearning.css";
 import talentPathLogo from "../assets/talentpath-logo.png";
 
 const courses = [

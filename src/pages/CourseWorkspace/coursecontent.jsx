@@ -11,7 +11,7 @@ import {
   ClipboardList,
   CircleHelp,
 } from "lucide-react";
-import "./CourseContent.css";
+import "./coursecontent.css";
 import logoMark from "../../assets/talentpath-logo.png";
 const modules = [
   {
