@@ -5,9 +5,20 @@ Django settings for TalentPath IQ project.
 
 import os
 from pathlib import Path
+from dotenv import load_dotenv
 
 # Build paths inside the project
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Load local backend/.env values for development. Railway's injected
+# environment variables continue to work when no .env file is present.
+load_dotenv(BASE_DIR / ".env")
+
+# TPIQ-54 demo mode: this fixed Railway student is used while authentication
+# is outside the scope of the demo. The browser never chooses the student.
+DEMO_STUDENT_ID = os.environ.get(
+    "DEMO_STUDENT_ID", "12e24043-258c-449b-b58b-5c6d4e0322c3"
+).strip()
 
 
 # --------------------------------------------------
