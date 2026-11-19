@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import "./App.css";
 import logoMark from "./assets/talentpath-logo.png";
+import MyLearning from "./pages/Mylearning.jsx";
 
 const pageSize = 6;
 
@@ -91,6 +92,10 @@ function App() {
 
     if (hash === "#catalogue") {
       return { page: "catalogue", course: null };
+    }
+
+    if (hash === "#my-learning") {
+      return { page: "my-learning", course: null };
     }
 
     if (hash === "#account") {
@@ -310,6 +315,7 @@ function App() {
     const routes = {
       trainings: "#trainings",
       catalogue: "#catalogue",
+      "my-learning": "#my-learning",
       account: "#account",
     };
 
@@ -417,6 +423,16 @@ function App() {
     setToast(`Opening ${course.title}…`);
   }
 
+  // TPIQ-56: My Learning brings its own sidebar and layout, so it replaces
+  // the app shell instead of rendering inside <main>.
+  if (page === "my-learning") {
+    return (
+      <MyLearning
+        onBackToTrainings={() => navigate("trainings")}
+        onGoToCourses={() => navigate("catalogue")}
+      />
+    );
+  }
 
   return (
     <div className="app-shell">
@@ -631,6 +647,14 @@ function App() {
                     and difficulty.
                   </p>
                 </div>
+
+                <button
+                  className="btn btn-outline"
+                  type="button"
+                  onClick={() => navigate("my-learning")}
+                >
+                  My learning <span>→</span>
+                </button>
               </div>
 
               <div className="catalogue-toolbar">
@@ -1009,7 +1033,7 @@ function App() {
                         ✓ Enrolled on {new Date(enrolments.find((item) => Number(item.courseId) === selectedCourse.id)?.enrolledAt || Date.now()).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
                       </span>
                       <div className="detail-action-buttons">
-                        <button className="btn btn-outline" type="button" onClick={() => setToast("My learning will be available in the Courses section.")}>Go to My learning</button>
+                        <button className="btn btn-outline" type="button" onClick={() => navigate("my-learning")}>Go to My learning</button>
                         <button className="btn btn-primary" type="button" onClick={() => setToast("Course workspace (TPIQ-57) is not part of this story.")}>Start course <span>→</span></button>
                       </div>
                     </>
