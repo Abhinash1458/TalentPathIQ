@@ -2,10 +2,28 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/talentpath-logo.png" />  
+    <!--
+      These live in public/ so they are copied to the site root verbatim.
+      Assets under src/assets are hashed by Vite and are not reachable at a
+      fixed path, which is why /talentpath-logo.png resolved to the SPA
+      fallback (index.html) instead of an image.
+    -->
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="theme-color"
+      content="#0c1a2b"
+    />
+    <meta
+      name="description"
+      content="TalentPath IQ - Learning and Training Platform"
+    />
     <title>TalentPath IQ</title>
   </head>
+
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
