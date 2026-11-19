@@ -208,12 +208,12 @@ function CourseContent() {
               <span>/</span>
               <a href="#catalogue">COURSES</a>
               <span>/</span>
-              <a href="#trainings">MY LEARNING</a>
+              <a href="#my-learning">MY LEARNING</a>
               <span>/</span>
               <strong>REST API FUNDAMENTALS</strong>
             </div>
 
-            <a href="#catalogue" className="cc-back-learning">
+            <a href="#my-learning" className="cc-back-learning">
               ← Back to My Learning
             </a>
           </header>
