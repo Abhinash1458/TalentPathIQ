@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import "./App.css";
+import "./sidebar.css";
 import logoMark from "./assets/talentpath-logo.png";
 import MyLearning from "./pages/Mylearning.jsx";
 import CourseContent from "./pages/CourseWorkspace/coursecontent.jsx";
+import { getCourseSymbol } from "./utils/courseMeta.js";
 
 const pageSize = 6;
 
@@ -26,29 +28,6 @@ function GraduationCap() {
       <path d="M22 10v6" />
     </svg>
   );
-}
-
-
-
-function getCourseSymbol(course) {
-  const title = String(course?.title || "").toLowerCase();
-  const category = String(course?.category || "").toLowerCase();
-
-  if (title.includes("java") || category === "java") return "J";
-  if (title.includes("python")) return "Py";
-  if (title.includes("c programming") || title === "c") return "C";
-  if (title.includes("c++") || title.includes("cpp")) return "C++";
-  if (title.includes("javascript") || title.includes("react") || title.includes("node") ||
-      title.includes("html") || title.includes("css") || category === "frontend") return "JS";
-  if (title.includes("mysql") || title.includes("postgres") || title.includes("sql") ||
-      title.includes("database") || category === "database") return "DB";
-  if (title.includes("api") || title.includes("rest") || category === "rest") return "API";
-  if (title.includes("artificial intelligence") || title.includes("machine learning") ||
-      title.includes("data science") || category === "ai/ml") return "AI";
-  if (title.includes("django") || title.includes("fastapi") ||
-      title.includes("backend") || category === "backend") return "BE";
-  if (category === "programming") return "DEV";
-  return title ? title.charAt(0).toUpperCase() : "C";
 }
 
 function App() {
@@ -97,6 +76,12 @@ function App() {
 
     if (hash === "#my-learning") {
       return { page: "my-learning", course: null };
+    }
+
+    if (hash.startsWith("#course-content/")) {
+      const courseId = Number(hash.split("/")[1]);
+      const course = courseList.find((item) => Number(item.id) === courseId);
+      return { page: "course-content", course: course || null };
     }
 
     if (hash === "#course-content") {
@@ -183,6 +168,11 @@ function App() {
               setSelectedCourse(null);
               setPage("catalogue");
             }
+          } else if (hash.startsWith("#course-content/")) {
+            const requestedId = Number(hash.split("/")[1]);
+            const match = loadedCourses.find((course) => course.id === requestedId);
+            setSelectedCourse(match || null);
+            setPage("course-content");
           }
         }
       } catch (error) {
@@ -307,14 +297,14 @@ function App() {
     }
   }, [currentPage, totalPages]);
 
-  function navigate(nextPage) {
+  function navigate(nextPage, targetCourseId = null) {
     setSearch("");
     setSelectedCategories([]);
     setSelectedLevels([]);
     setCurrentPage(1);
     setSortBy("recent");
     setPage(nextPage);
-    setSelectedCourse(null);
+    if (nextPage !== "course-content") setSelectedCourse(null);
     setSidebarOpen(false);
 
     const routes = {
@@ -325,7 +315,10 @@ function App() {
       account: "#account",
     };
 
-    window.location.hash = routes[nextPage] || "#trainings";
+    const workspaceCourseId = targetCourseId || selectedCourse?.id;
+    window.location.hash = nextPage === "course-content" && workspaceCourseId
+      ? `#course-content/${workspaceCourseId}`
+      : (routes[nextPage] || "#trainings");
 
     scrollToTop();
   }
@@ -434,9 +427,14 @@ function App() {
   if (page === "my-learning") {
     return (
       <MyLearning
+        apiBaseUrl={API_BASE_URL}
+        catalogueCount={courses.length}
         onBackToTrainings={() => navigate("trainings")}
         onGoToCourses={() => navigate("catalogue")}
-        onOpenWorkspace={() => navigate("course-content")}
+        onOpenWorkspace={(course) => {
+          if (course) setSelectedCourse(course);
+          navigate("course-content", course?.courseId || course?.id);
+        }}
       />
     );
   }
@@ -445,7 +443,7 @@ function App() {
   // links are plain #hash anchors, which the hashchange listener above
   // routes back into the app.
   if (page === "course-content") {
-    return <CourseContent />;
+    return <CourseContent course={selectedCourse} apiBaseUrl={API_BASE_URL} />;
   }
 
   return (
@@ -663,7 +661,7 @@ function App() {
                 </div>
 
                 <button
-                  className="btn btn-outline"
+                  className="btn btn-primary catalogue-my-learning-btn"
                   type="button"
                   onClick={() => navigate("my-learning")}
                 >
@@ -1048,7 +1046,7 @@ function App() {
                       </span>
                       <div className="detail-action-buttons">
                         <button className="btn btn-outline" type="button" onClick={() => navigate("my-learning")}>Go to My learning</button>
-                        <button className="btn btn-primary" type="button" onClick={() => navigate("course-content")}>Start course <span>→</span></button>
+                        <button className="btn btn-primary" type="button" onClick={() => navigate("course-content", selectedCourse?.id)}>Start course <span>→</span></button>
                       </div>
                     </>
                   ) : (
