@@ -1,0 +1,815 @@
+
+/* =========================================
+   SUBMISSION CONTAINER
+========================================= */
+
+.cc-submission-container {
+  width: 100%;
+  margin-top: 18px;
+  overflow: hidden;
+  border: 1px solid var(--cc-border);
+  border-radius: 14px;
+  background: #ffffff;
+}
+
+/* =========================================
+   DEFAULT ASSIGNMENT ROWS
+========================================= */
+
+.cc-assignment-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  min-height: 100px;
+  padding: 20px 26px;
+  border-bottom: 1px solid var(--cc-border);
+}
+
+.cc-assignment-row:last-child {
+  border-bottom: none;
+}
+
+/* =========================================
+   ASSIGNMENT INFORMATION
+========================================= */
+
+.cc-assignment-info {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.cc-assignment-info h3 {
+  margin: 0 0 5px;
+  color: var(--cc-ink);
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+.cc-assignment-info p {
+  margin: 0;
+  color: var(--cc-muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.cc-assignment-info p strong {
+  color: var(--cc-ink);
+  font-weight: 700;
+}
+
+
+.cc-assignment-row-upload {
+  display: grid !important;
+
+  grid-template-columns: minmax(0, 1fr) 250px;
+
+  grid-template-areas:
+    "info info"
+    "upload actions";
+
+  column-gap: 36px;
+  row-gap: 14px;
+
+  align-items: start;
+
+  min-height: 40px;
+  padding: 16px 22px;
+
+  flex-wrap: unset !important;
+}
+
+/* Assignment information */
+
+.cc-assignment-row-upload .cc-assignment-info {
+  grid-area: info;
+  width: 100%;
+  min-width: 0;
+}
+
+/* Upload area */
+
+.cc-assignment-row-upload .cc-assignment-upload {
+  grid-area: upload;
+
+  width: 100%;
+  min-width: 0;
+
+  margin: 0;
+  flex: none;
+}
+
+/* Action section */
+
+.cc-assignment-row-upload .cc-assignment-actions {
+  grid-area: actions;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  width: 250px;
+  min-width: 160px;
+
+  flex: none;
+  gap: 12px;
+
+  margin: 8px 0 0;
+
+  align-self: start;
+}
+
+/* =========================================
+   FILE UPLOAD
+========================================= */
+
+.cc-assignment-upload {
+  position: relative;
+  min-width: 0;
+}
+
+.cc-upload-prompt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 48px;
+
+  padding: 9px 12px12px;
+
+  border: 1.5px dashed #60a5fa;
+  border-radius: 12px;
+
+  background: #f8fbff;
+  color: #1d4ed8;
+
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.cc-upload-prompt:hover {
+  border-color: #2563eb;
+  background: #eff6ff;
+}
+
+.cc-assignment-upload.cc-drag-active .cc-upload-prompt {
+  border-color: #2563eb;
+  background: #dbeafe;
+}
+
+/* =========================================
+   SELECTED FILE
+========================================= */
+
+.cc-selected-file {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
+
+  padding: 8px 12px;
+
+  border: 1.5px dashed #60a5fa;
+  border-radius: 12px;
+
+  background: #f8fbff;
+  color: var(--cc-ink);
+
+  overflow: hidden;
+}
+
+.cc-file-type {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  padding: 3px 7px;
+
+  border-radius: 5px;
+
+  background: #dbeafe;
+  color: #1d4ed8;
+
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.cc-selected-file strong {
+  flex: 0 1 auto;
+  min-width: 0;
+
+  overflow: hidden;
+
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cc-file-size {
+  flex-shrink: 0;
+
+  color: var(--cc-muted);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+/* =========================================
+   REPLACE FILE BUTTON
+========================================= */
+
+.cc-replace-file {
+  flex-shrink: 0;
+
+  margin-left: auto;
+  padding: 5px 0 5px 8px;
+
+  border: 0;
+  background: transparent;
+
+  color: #1d4ed8;
+
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.cc-replace-file:hover {
+  color: #1e40af;
+  text-decoration: underline;
+}
+
+/* =========================================
+   REMOVE FILE BUTTON
+========================================= */
+
+.cc-remove-file {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  width: 27px;
+  height: 27px;
+
+  padding: 0;
+
+  border: 0;
+  border-radius: 6px;
+
+  background: transparent;
+  color: #dc2626;
+
+  cursor: pointer;
+}
+
+.cc-remove-file:hover {
+  background: #fee2e2;
+}
+
+/* =========================================
+   UPLOAD HINT
+========================================= */
+
+.cc-upload-hint {
+  margin: 7px 0 0;
+
+  color: var(--cc-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* =========================================
+   UPLOAD ERROR MESSAGE
+========================================= */
+
+.cc-upload-error {
+  display: block;
+
+  width: 100%;
+  min-height: 18px;
+
+  margin: 7px 0 0;
+
+  color: #dc2626;
+
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+/* =========================================
+   STATUS AND ACTIONS
+========================================= */
+
+.cc-assignment-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: 14px;
+
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+
+.cc-assignment-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  padding: 5px 12px;
+
+  border-radius: 20px;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+.status-not-submitted {
+  background: #e2e8f0;
+  color: #243b5b;
+}
+
+.status-review {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.status-graded {
+  background: #d1fae5;
+  color: #047857;
+}
+
+.status-missed {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+/* =========================================
+   BUTTONS
+========================================= */
+
+.cc-submit-button,
+.cc-view-button,
+.cc-feedback-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  box-sizing: border-box;
+
+  min-width: 84px;
+  min-height: 46px;
+
+  padding: 10px 19px;
+
+  border: 1px solid var(--cc-border);
+  border-radius: 10px;
+
+  background: #ffffff;
+  color: var(--cc-ink);
+
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+/* Submit */
+
+.cc-submit-button {
+  width: 101px;
+  min-width: 101px;
+  flex-shrink: 0;
+
+  border-color: var(--cc-blue);
+  background: var(--cc-blue);
+  color: #ffffff;
+}
+
+.cc-submit-button:hover:not(:disabled) {
+  border-color: #1d4ed8;
+  background: #1d4ed8;
+}
+
+.cc-submit-button:disabled {
+  border-color: #a5bdf5;
+  background: #a5bdf5;
+  color: #ffffff;
+
+  opacity: 1;
+  cursor: not-allowed;
+}
+
+/* View and Feedback */
+
+.cc-view-button:hover,
+.cc-feedback-button:hover {
+  border-color: var(--cc-blue);
+  color: var(--cc-blue);
+}
+
+/* =========================================
+   EMPTY STATE
+========================================= */
+
+.cc-submission-empty {
+  display: flex;
+
+  min-height: 300px;
+
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 30px;
+
+  color: var(--cc-muted);
+  text-align: center;
+}
+
+.cc-submission-empty svg {
+  margin-bottom: 15px;
+  color: var(--cc-blue);
+}
+
+.cc-submission-empty h2 {
+  margin: 0 0 7px;
+
+  color: var(--cc-ink);
+
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 19px;
+  font-weight: 800;
+}
+
+.cc-submission-empty p {
+  margin: 0;
+  font-size: 13px;
+}
+
+/* =========================================
+   SUBMISSION MODAL
+========================================= */
+
+.cc-submission-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  background: rgba(15, 23, 42, 0.55);
+}
+
+.cc-submission-modal {
+  position: relative;
+
+  box-sizing: border-box;
+
+  width: 100%;
+  max-width: 470px;
+
+  padding: 30px;
+
+  border: 1px solid var(--cc-border);
+  border-radius: 16px;
+
+  background: #ffffff;
+
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.2);
+}
+
+/* Close button */
+
+.cc-modal-close {
+  position: absolute;
+  top: 17px;
+  right: 17px;
+
+  display: grid;
+
+  width: 34px;
+  height: 34px;
+
+  place-items: center;
+
+  border: 0;
+  border-radius: 8px;
+
+  background: #f1f5f9;
+  color: var(--cc-ink);
+
+  cursor: pointer;
+}
+
+/* Modal icon */
+
+.cc-modal-icon {
+  display: grid;
+
+  width: 48px;
+  height: 48px;
+
+  place-items: center;
+
+  margin-bottom: 17px;
+
+  border-radius: 12px;
+
+  background: #dbeafe;
+  color: var(--cc-blue);
+}
+
+/* Modal heading */
+
+.cc-submission-modal h2 {
+  padding-right: 25px;
+  margin: 0 0 22px;
+
+  color: var(--cc-ink);
+
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+/* Modal label */
+
+.cc-modal-label {
+  margin: 15px 0 7px;
+
+  color: var(--cc-muted);
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* Modal file */
+
+.cc-modal-file {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 12px;
+
+  border: 1px solid var(--cc-border);
+  border-radius: 9px;
+
+  color: var(--cc-ink);
+}
+
+.cc-modal-file svg {
+  flex-shrink: 0;
+  color: var(--cc-blue);
+}
+
+.cc-modal-file strong {
+  overflow: hidden;
+  flex: 1;
+
+  font-size: 12px;
+  text-overflow: ellipsis;
+}
+
+.cc-modal-file span {
+  flex-shrink: 0;
+
+  color: var(--cc-muted);
+  font-size: 11px;
+}
+
+.cc-submission-modal > p:not(.cc-modal-label) {
+  margin: 0;
+  color: var(--cc-ink);
+  font-size: 13px;
+}
+
+/* Feedback */
+
+.cc-feedback-score {
+  margin: 18px 0;
+
+  color: #059669;
+
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 29px;
+  font-weight: 800;
+}
+
+.cc-feedback-comment {
+  padding: 14px;
+
+  border-radius: 9px;
+
+  background: #f0fdf4;
+  color: #166534;
+
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.cc-review-message {
+  margin-top: 17px !important;
+
+  padding: 13px;
+
+  border-radius: 9px;
+
+  background: #fffbeb;
+  color: #92400e !important;
+
+  line-height: 1.6;
+}
+
+/* Modal done */
+
+.cc-modal-done {
+  width: 100%;
+  min-height: 44px;
+
+  margin-top: 23px;
+
+  border: 0;
+  border-radius: 9px;
+
+  background: var(--cc-blue);
+  color: #ffffff;
+
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+/* =========================================
+   RESPONSIVE - TABLET
+========================================= */
+
+@media (max-width: 800px) {
+
+  .cc-assignment-row {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 14px;
+
+    padding: 18px;
+  }
+
+  .cc-assignment-row-upload {
+    display: flex !important;
+
+    flex-direction: column;
+    align-items: stretch;
+
+    gap: 14px;
+
+    min-height: auto;
+  }
+
+  .cc-assignment-row-upload .cc-assignment-info {
+    width: 100%;
+  }
+
+  .cc-assignment-row-upload .cc-assignment-upload {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .cc-assignment-row-upload .cc-assignment-actions {
+    display: flex;
+
+    width: 100%;
+    min-width: 0;
+
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    margin: 0;
+  }
+
+  .cc-selected-file {
+    flex-wrap: nowrap;
+  }
+
+  .cc-replace-file {
+    margin-left: auto;
+  }
+}
+
+/* =========================================
+   RESPONSIVE - MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+
+  .cc-assignment-info h3 {
+    font-size: 14px;
+  }
+
+  .cc-assignment-info p {
+    font-size: 11px;
+  }
+
+  .cc-assignment-actions {
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .cc-assignment-status {
+    font-size: 10px;
+  }
+
+  .cc-submit-button,
+  .cc-view-button,
+  .cc-feedback-button {
+    min-height: 40px;
+    padding: 8px 12px;
+    font-size: 11px;
+  }
+
+  .cc-assignment-row-upload .cc-assignment-actions {
+    align-items: center;
+  }
+
+  .cc-selected-file {
+    gap: 6px;
+    padding: 9px;
+  }
+
+  .cc-selected-file strong {
+    font-size: 11px;
+  }
+
+  .cc-file-size {
+    font-size: 10px;
+  }
+
+  .cc-replace-file {
+    font-size: 11px;
+  }
+
+  .cc-submission-modal {
+    padding: 23px;
+  }
+}
+
+/* =========================================
+   UPLOAD RETRY (TPIQ-57-B, AC 6)
+========================================= */
+
+.cc-upload-retry {
+  margin-left: 10px;
+  padding: 0;
+
+  border: 0;
+  background: transparent;
+
+  color: #1d4ed8;
+
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  text-decoration: underline;
+
+  cursor: pointer;
+}
+
+.cc-upload-retry:hover {
+  color: #1e40af;
+}

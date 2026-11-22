@@ -300,3 +300,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # --------------------------------------------------
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Uploaded course assignment files (use a persistent Railway volume in production).
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"

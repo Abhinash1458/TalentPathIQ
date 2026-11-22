@@ -1,0 +1,238 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap");
+
+/* ==========================================================================
+   TalentPath IQ — shared app sidebar
+   Single source of truth for every page that shows the sidebar:
+     Trainings / Catalogue (.sidebar), My Learning (.ml-sidebar),
+     Course Workspace (.cc-sidebar).
+   Built from the TalentPath IQ Brand Guidelines:
+     §1 Logo (40px badge, 11px corners, 10px gap, wordmark colours)
+     §2 Colours (ink #0C1A2B, signature gradient, light blue accent)
+     §3 Fonts (Plus Jakarta Sans for navigation + wordmark, Inter for small print)
+     §4 Spacing (4px grid, 264px sidebar)
+     §5 Sidebar (white at 70% normal, 100% active)
+   Only change the sidebar's look here. Page CSS keeps positioning and the
+   mobile slide-in only.
+   ========================================================================== */
+
+:root {
+  --tp-sidebar-width: 264px;
+  --tp-ink: #0c1a2b;
+  --tp-brand-light: #38bdf8;
+  --tp-gradient: linear-gradient(120deg, #1d4ed8 0%, #0891b2 52%, #06b6d4 100%);
+  --tp-font-display: "Plus Jakarta Sans", "Inter", sans-serif;
+  --tp-font-body: "Inter", sans-serif;
+  --tp-on-dark: rgba(255, 255, 255, 0.7);
+  --tp-on-dark-active: #ffffff;
+  --tp-on-dark-hover-bg: rgba(255, 255, 255, 0.08);
+  --tp-on-dark-line: rgba(255, 255, 255, 0.12);
+}
+
+/* Container ---------------------------------------------------------------- */
+html body :is(.sidebar, .ml-sidebar, .cc-sidebar) {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: var(--tp-sidebar-width);
+  min-width: var(--tp-sidebar-width);
+  max-width: var(--tp-sidebar-width);
+  padding: 24px 20px 16px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: var(--tp-ink);
+  color: var(--tp-on-dark-active);
+  font-family: var(--tp-font-body);
+}
+
+html body :is(.sidebar, .ml-sidebar, .cc-sidebar) *,
+html body :is(.sidebar, .ml-sidebar, .cc-sidebar) *::before,
+html body :is(.sidebar, .ml-sidebar, .cc-sidebar) *::after {
+  box-sizing: border-box;
+}
+
+html body :is(.sidebar, .ml-sidebar, .cc-sidebar) :is(a, button) {
+  text-decoration: none;
+}
+
+/* Logo + wordmark (§1) ------------------------------------------------------ */
+html body :is(.sidebar, .ml-sidebar, .cc-sidebar) :is(.sidebar-brand, .cc-brand) {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  width: 100%;
+  margin: 0 0 32px;
+  padding: 0;
+  color: inherit;
+  text-decoration: none;
+}
+
+html body :is(.sidebar, .ml-sidebar, .cc-sidebar) :is(.sidebar-brand, .cc-brand) :is(.brand-mark, img) {
+  display: block;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  flex: 0 0 40px;
+  object-fit: contain;
+  border-radius: 11px;
+}
+
+html body :is(.sidebar, .ml-sidebar, .cc-sidebar) .wordmark {
+  display: flex;
+  align-items: baseline;
+  gap: 0.28em;
+  margin: 0;
+  color: #fff;
+  font-family: var(--tp-font-display);
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+html body :is(.sidebar, .ml-sidebar, .cc-sidebar) .wordmark span {
+  color: #fff;
+}
+
+html body :is(.sidebar, .ml-sidebar, .cc-sidebar) .wordmark b {
+  color: var(--tp-brand-light);
+  font-family: var(--tp-font-display);
+  font-weight: 800;
+}
+
+/* Navigation (§3 Plus Jakarta Sans, §5 70% / 100% white) -------------------- */
+html body :is(.sidebar, .ml-sidebar, .cc-sidebar) :is(.sidebar-nav, .cc-primary-nav) {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+html body :is(.sidebar, .ml-sidebar, .cc-sidebar) :is(.nav-item, .ml-nav-item, .cc-nav-link) {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 16px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--tp-on-dark);
+  font-family: var(--tp-font-display);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: left;
+  box-shadow: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+html body :is(.sidebar, .ml-sidebar, .cc-sidebar) :is(.nav-item, .ml-nav-item, .cc-nav-link):hover {
+  background: var(--tp-on-dark-hover-bg);
+  color: var(--tp-on-dark-active);
+}
+
+html body :is(.sidebar, .ml-sidebar, .cc-sidebar) :is(.nav-item, .ml-nav-item, .cc-nav-link).active {
+  background: var(--tp-gradient);
+  color: var(--tp-on-dark-active);
+  font-weight: 700;
+  box-shadow: 0 6px 16px rgba(2, 132, 199, 0.35);
+}
+
+html body :is(.sidebar, .ml-sidebar, .cc-sidebar) .nav-icon {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+  color: currentColor;
+}
+
+html body :is(.sidebar, .ml-sidebar, .cc-sidebar) .nav-icon svg {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+
+/* Spacer, account, copyright ------------------------------------------------ */
+html body :is(.sidebar, .ml-sidebar, .cc-sidebar) .sidebar-spacer {
+  flex: 1;
+  min-height: 32px;
+}
+
+html body :is(.sidebar, .ml-sidebar, .cc-sidebar) :is(.ml-sidebar-bottom, .cc-sidebar-bottom) {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: auto;
+  padding: 0;
+}
+
+html body :is(.sidebar, .ml-sidebar, .cc-sidebar) :is(.account-nav, .ml-account, .cc-account-link) {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  width: 100%;
+  min-height: 56px;
+  margin: 0;
+  padding: 12px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--tp-on-dark);
+  font-family: var(--tp-font-display);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+html body :is(.sidebar, .ml-sidebar, .cc-sidebar) :is(.account-nav, .ml-account, .cc-account-link):hover,
+html body :is(.sidebar, .ml-sidebar, .cc-sidebar) :is(.account-nav, .ml-account, .cc-account-link).active {
+  background: var(--tp-on-dark-hover-bg);
+  color: var(--tp-on-dark-active);
+}
+
+html body :is(.sidebar, .ml-sidebar, .cc-sidebar) :is(.account-avatar, .ml-avatar, .cc-avatar) {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  border-radius: 50%;
+  background: var(--tp-gradient);
+  color: #fff;
+  font-family: var(--tp-font-display);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+html body :is(.sidebar, .ml-sidebar, .cc-sidebar) :is(.ml-account-text, .cc-account-text) {
+  flex: 0 1 auto;
+}
+
+html body :is(.sidebar, .ml-sidebar, .cc-sidebar) .account-chevron {
+  margin-left: auto;
+  color: var(--tp-on-dark);
+  font-size: 20px;
+  line-height: 1;
+}
+
+html body :is(.sidebar, .ml-sidebar, .cc-sidebar) :is(.sidebar-copyright, .ml-sidebar-footer, .cc-sidebar-copyright) {
+  flex-shrink: 0;
+  margin: 0;
+  padding: 12px 12px 0;
+  border-top: 1px solid var(--tp-on-dark-line);
+  color: var(--tp-on-dark);
+  font-family: var(--tp-font-body);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+}
