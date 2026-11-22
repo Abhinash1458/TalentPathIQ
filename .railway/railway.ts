@@ -9,7 +9,20 @@ export default defineRailway(() => {
     healthcheck: "/",
     healthcheckTimeout: 120,
     replicas: { "us-west2": 1 },
-    env: { PORT: preserve(), VITE_API_BASE_URL: preserve() },
+    env: {
+      PORT: preserve(),
+      VITE_API_BASE_URL: preserve(),
+      // The TPIQ-56/57 pages call same-origin "/api" instead of reading
+      // VITE_API_BASE_URL, so nginx must proxy that through to the API.
+      // Railway's private network is IPv6-only, so this goes out via the
+      // backend's public domain. The Host header has to name the backend:
+      // Railway's edge routes by Host, so forwarding this service's own
+      // host would loop the request straight back here.
+      BACKEND_URL: "https://backend-production-deef5b47.up.railway.app",
+      BACKEND_HOST: "backend-production-deef5b47.up.railway.app",
+      // Docker's embedded resolver does not exist on Railway.
+      DNS_RESOLVER: "1.1.1.1 8.8.8.8",
+    },
   });
   const backend = service("backend", {
     // Both services upload the whole repo as the build context, so the
