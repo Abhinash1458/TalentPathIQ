@@ -2,8 +2,13 @@
 # Only real environment variables are substituted, so nginx's own $uri,
 # $host and friends survive untouched.
 #
-#   PORT        - port to listen on (80 locally, injected by Railway)
-#   BACKEND_URL - upstream Django service
+#   PORT         - port to listen on (80 locally, injected by Railway)
+#   BACKEND_URL  - upstream Django service
+#   BACKEND_HOST - Host header sent upstream. Railway's edge routes by Host,
+#                  so forwarding the frontend's own host would loop back here
+#                  instead of reaching the API.
+#   DNS_RESOLVER - Docker's embedded DNS locally; a public resolver on hosts
+#                  where the upstream is a real domain name.
 
 server {
     listen ${PORT};
@@ -12,8 +17,8 @@ server {
     root /usr/share/nginx/html;
     index index.html;
 
-    # Docker's embedded DNS. Used only for the runtime-resolved proxy below.
-    resolver 127.0.0.11 ipv6=off valid=10s;
+    # Used only for the runtime-resolved proxy below.
+    resolver ${DNS_RESOLVER} ipv6=off valid=30s;
 
     # Holding the upstream in a variable defers DNS resolution to request
     # time. With a literal hostname nginx resolves at startup and refuses to
@@ -37,7 +42,8 @@ server {
     location /api/ {
         proxy_pass $backend_url$request_uri;
         proxy_http_version 1.1;
-        proxy_set_header Host $host;
+        proxy_set_header Host ${BACKEND_HOST};
+        proxy_ssl_server_name on;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
@@ -47,7 +53,8 @@ server {
     location /admin/ {
         proxy_pass $backend_url$request_uri;
         proxy_http_version 1.1;
-        proxy_set_header Host $host;
+        proxy_set_header Host ${BACKEND_HOST};
+        proxy_ssl_server_name on;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
@@ -57,7 +64,8 @@ server {
     location /static/ {
         proxy_pass $backend_url$request_uri;
         proxy_http_version 1.1;
-        proxy_set_header Host $host;
+        proxy_set_header Host ${BACKEND_HOST};
+        proxy_ssl_server_name on;
         proxy_set_header X-Forwarded-Proto $scheme;
     }
 

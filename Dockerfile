@@ -25,9 +25,11 @@ FROM nginx:1.29-alpine
 COPY nginx.conf.template /etc/nginx/templates/default.conf.template
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# Defaults for local compose; Railway overrides PORT (and BACKEND_URL).
+# Defaults for local compose; Railway overrides these (see .railway/railway.ts).
 ENV PORT=80 \
-    BACKEND_URL=http://backend:8000
+    BACKEND_URL=http://backend:8000 \
+    BACKEND_HOST=backend \
+    DNS_RESOLVER=127.0.0.11
 
 EXPOSE 80
 
