@@ -960,6 +960,27 @@ button {
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
+.toast.show {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.toast-success-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 24px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #10b981;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1;
+}
+
 /* MOBILE SIDEBAR OVERLAY */
 
 .sidebar-overlay {
@@ -1142,7 +1163,25 @@ button {
 /* TPIQ-54 enrolment experience */
 .detail-action { display:flex; flex-direction:column; align-items:flex-end; gap:12px; min-width:220px; }
 .detail-action-buttons { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:10px; }
-.enrolled-label { color:#00845a; font-size:14px; font-weight:700; }
+.enrolled-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  color: #00845a;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.enrolled-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #059669;
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1;
+}
 .enrolment-error { display:flex; justify-content:space-between; align-items:center; gap:16px; margin:16px 0 20px; padding:14px 18px; border:1px solid #fecaca; border-radius:12px; background:#fff1f2; color:#b42318; font-size:14px; }
 .enrolment-error-copy { display:flex; flex-direction:column; gap:5px; min-width:0; }
 .enrolment-error-detail { color:#7f1d1d; font-size:12px; overflow-wrap:anywhere; }

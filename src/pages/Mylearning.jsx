@@ -196,10 +196,10 @@ export default function MyLearning({
     <div className="my-learning-layout">
       <aside className="ml-sidebar">
         <div>
-          <div className="sidebar-brand">
+          <a href="/#trainings" className="sidebar-brand" aria-label="TalentPath IQ home">
             <img src={talentPathLogo} alt="TalentPath IQ Logo" className="brand-mark" />
             <span className="wordmark"><span>TalentPath</span><b>IQ</b></span>
-          </div>
+          </a>
           <nav className="sidebar-nav" aria-label="Main navigation">
             <a href="/#trainings" className="ml-nav-item active">
               <span className="nav-icon">
@@ -236,14 +236,16 @@ export default function MyLearning({
           </button>
         </div>
 
-        <section className="ml-stats">
-          <div className="ml-stat-card"><span>ENROLLED</span><strong>{counts.enrolled}</strong></div>
-          <div className="ml-stat-card"><span>IN PROGRESS</span><strong>{counts.in_progress}</strong></div>
-          <div className="ml-stat-card"><span>NOT STARTED</span><strong>{counts.not_started}</strong></div>
-          <div className="ml-stat-card"><span>COMPLETED</span><strong>{counts.completed}</strong></div>
-        </section>
+        {enrolments.length > 0 && (
+          <>
+            <section className="ml-stats">
+              <div className="ml-stat-card"><span>ENROLLED</span><strong>{counts.enrolled}</strong></div>
+              <div className="ml-stat-card"><span>IN PROGRESS</span><strong>{counts.in_progress}</strong></div>
+              <div className="ml-stat-card"><span>NOT STARTED</span><strong>{counts.not_started}</strong></div>
+              <div className="ml-stat-card"><span>COMPLETED</span><strong>{counts.completed}</strong></div>
+            </section>
 
-        <section className="ml-toolbar">
+            <section className="ml-toolbar">
           <input className="ml-search" type="search" placeholder="⌕ Search my courses"
             value={query} onChange={(event) => setQuery(event.target.value)} />
           <div className="ml-filter-pills">
@@ -259,16 +261,32 @@ export default function MyLearning({
             <option value="progress">Sort: Progress</option>
             <option value="name">Sort: A–Z</option>
           </select>
-        </section>
+            </section>
+          </>
+        )}
 
         {loading ? <div className="ml-empty-state"><p>Loading your enrolled courses…</p></div>
           : error ? <div className="ml-empty-state" role="alert"><h3>Couldn't load My Learning</h3><p>{error}</p>
               <button className="ml-action-btn ml-outline-btn" onClick={() => setReloadKey((key) => key + 1)}>Retry</button></div>
-          : enrolments.length === 0 ? <div className="ml-empty-state"><h3>You haven't enrolled in any courses yet</h3>
-              <p>Browse the course catalogue to find a course.</p>
-              <button className="ml-action-btn ml-primary-btn" onClick={onGoToCourses}>Browse courses</button></div>
-          : list.length === 0 ? <div className="ml-empty-state"><h3>No courses match your filters</h3>
-              <button className="ml-action-btn ml-outline-btn" onClick={clearFilters}>Clear filters</button></div>
+          : enrolments.length === 0 ? <div className="ml-empty-state">
+              <h3>No courses yet</h3>
+              <p>You haven't enrolled in any courses. Explore the course catalogue and start learning.</p>
+              <button className="ml-action-btn ml-primary-btn" onClick={onGoToCourses}>Browse courses →</button>
+            </div>
+          : list.length === 0 ? <div className="ml-empty-state">
+              <h3>{filter === "completed" ? "No courses completed yet" :
+                filter === "in_progress" ? "No courses in progress yet" :
+                filter === "not_started" ? "No courses not started" :
+                "No courses match your search"}</h3>
+              <p>{filter === "completed"
+                ? "Courses you complete will appear here."
+                : filter === "in_progress"
+                  ? "Courses you start will appear here."
+                  : filter === "not_started"
+                    ? "You don't have any courses waiting to be started."
+                    : "Try changing your search or clearing your filters."}</p>
+              <button className="ml-action-btn ml-outline-btn" onClick={clearFilters}>Show all courses</button>
+            </div>
           : <section className="ml-course-list">
               <div className="ml-course-header"><span></span><span>COURSE</span><span>PROGRESS</span><span>STATUS</span><span>LAST ACTIVITY</span><span></span></div>
               {list.map((course) => <CourseRow key={course.id} course={course} onAction={onOpenWorkspace || (() => {})} />)}

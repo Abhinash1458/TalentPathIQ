@@ -137,10 +137,10 @@ function Submission({ onDueCountChange, courseId, apiBaseUrl = "/api" }) {
           const statusMap = { under_review: "Under review", graded: "Graded" };
           return {
             ...item,
-            allowedTypes: Array.isArray(item.allowedTypes)
-              ? item.allowedTypes.map((type) => String(type).replace(/^\\./, "").toLowerCase())
-              : [],
-            maxSizeMB: Number(item.maxSizeMB ?? 20),
+            allowedTypes: Array.isArray(item.allowedTypes) && item.allowedTypes.length
+              ? item.allowedTypes.map((type) => String(type).toLowerCase().replace(/^\./, ""))
+              : ["pdf", "docx", "zip"],
+            maxSizeMB: Number(item.maxSizeMB) || 50,
             status: statusMap[submission?.status] || "Not submitted",
             fileName: submission?.fileName || "",
             fileSize: submission?.fileSize || 0,
@@ -337,6 +337,9 @@ function Submission({ onDueCountChange, courseId, apiBaseUrl = "/api" }) {
         const status = getStatus(assignment, now);
         const isNotSubmitted = status === "Not submitted";
         const isMissed = status === "Missed";
+        // File replacement is allowed only before the first successful submit.
+        // Once a submission exists, the learner can only view it or its feedback.
+        const canUpload = isNotSubmitted;
         const state = ui[assignment.id] || {};
         const selectedFile = state.file || null;
         const isDragging = draggingId === assignment.id;
@@ -347,7 +350,7 @@ function Submission({ onDueCountChange, courseId, apiBaseUrl = "/api" }) {
           <article
             key={assignment.id}
             className={`cc-assignment-row ${
-              isNotSubmitted ? "cc-assignment-row-upload" : ""
+              canUpload ? "cc-assignment-row-upload" : ""
             }`}
           >
             {/* INFORMATION */}
@@ -371,7 +374,7 @@ function Submission({ onDueCountChange, courseId, apiBaseUrl = "/api" }) {
             </div>
 
             {/* FILE PICKER / DRAG AND DROP */}
-            {isNotSubmitted && (
+            {canUpload && (
               <div
                 className={`cc-assignment-upload ${
                   isDragging ? "cc-drag-active" : ""
@@ -556,7 +559,18 @@ function Submission({ onDueCountChange, courseId, apiBaseUrl = "/api" }) {
 
             <div className="cc-modal-file">
               <FileArchive size={21} />
-              <strong>{modalAssignment.fileName}</strong>
+              {modalAssignment.submittedFileUrl ? (
+                <a
+                  href={modalAssignment.submittedFileUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="cc-submitted-file-link"
+                >
+                  {modalAssignment.fileName}
+                </a>
+              ) : (
+                <strong>{modalAssignment.fileName}</strong>
+              )}
               <span>{formatFileSize(modalAssignment.fileSize)}</span>
             </div>
 

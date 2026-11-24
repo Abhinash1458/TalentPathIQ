@@ -134,6 +134,12 @@ function CourseContent({ course = null, apiBaseUrl = "/api" }) {
       return undefined;
     }
     let cancelled = false;
+    setEnrolment(null);
+    setCompletedLessons([]);
+    setSelectedLessonId("1.1");
+    setActiveModule(1);
+    setExpandedModules([1]);
+    setLoadState("loading");
     async function loadWorkspace() {
       setLoadState((state) => (state === "ready" ? state : "loading"));
       const [courseResult, enrolmentResult] = await Promise.allSettled([
@@ -164,6 +170,17 @@ function CourseContent({ course = null, apiBaseUrl = "/api" }) {
         }
       }
       if (cancelled) return;
+
+      // TPIQ-57 AC12: only enrolled students can access a workspace.
+      // Do not treat an enrolment API failure as an unenrolled student.
+      if (enrolmentResult.status !== "fulfilled" || !enrolmentResult.value.ok) {
+        setLoadState("error");
+        return;
+      }
+      if (!record) {
+        window.location.replace(`/#course/${courseId}`);
+        return;
+      }
 
       // The enrolment embeds the course, so it is a valid fallback source.
       const resolved = details || normalizeWorkspaceCourse(record?.course);
@@ -327,20 +344,20 @@ function CourseContent({ course = null, apiBaseUrl = "/api" }) {
       <div className="cc-app-layout">
         {/* SIDEBAR */}
         <aside className={`cc-sidebar ${sidebarOpen ? "open" : ""}`}>
-          <div className="cc-brand">
+          <a href="/#trainings" className="cc-brand" aria-label="TalentPath IQ home">
             <img src={logoMark} alt="TalentPath IQ" />
             <span className="wordmark">
               <span>TalentPath</span>
               <b>IQ</b>
             </span>
-            <button
-              className="cc-close-sidebar"
-              onClick={() => setSidebarOpen(false)}
-              aria-label="Close menu"
-            >
-              <X size={20} />
-            </button>
-          </div>
+          </a>
+          <button
+            className="cc-close-sidebar"
+            onClick={() => setSidebarOpen(false)}
+            aria-label="Close menu"
+          >
+            <X size={20} />
+          </button>
 
           <nav className="cc-primary-nav">
             <a className="cc-nav-link active" href="#trainings">
@@ -380,17 +397,19 @@ function CourseContent({ course = null, apiBaseUrl = "/api" }) {
               <Menu size={22} />
             </button>
 
-            <div className="cc-breadcrumb">
-              <a href="#trainings">HOME</a>
-              <span>/</span>
-              <a href="#trainings">TRAININGS</a>
-              <span>/</span>
-              <a href="#catalogue">COURSES</a>
-              <span>/</span>
-              <a href="#my-learning">MY LEARNING</a>
-              <span>/</span>
-              <strong>{courseTitle || (loadState === "loading" ? "Loading course…" : "Course unavailable")}</strong>
-            </div>
+            <nav className="cc-breadcrumb" aria-label="Breadcrumb">
+              <span className="cc-breadcrumb-item">HOME</span>
+              <span className="cc-breadcrumb-separator">/</span>
+              <span className="cc-breadcrumb-item">TRAININGS</span>
+              <span className="cc-breadcrumb-separator">/</span>
+              <span className="cc-breadcrumb-item">COURSES</span>
+              <span className="cc-breadcrumb-separator">/</span>
+              <span className="cc-breadcrumb-item">MY LEARNING</span>
+              <span className="cc-breadcrumb-separator">/</span>
+              <strong className="cc-breadcrumb-current" aria-current="page">
+                {courseTitle || (loadState === "loading" ? "Loading course…" : "Course unavailable")}
+              </strong>
+            </nav>
 
             <a href="#my-learning" className="cc-back-learning">
               ← Back to My Learning
