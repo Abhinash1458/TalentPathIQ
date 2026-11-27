@@ -973,7 +973,9 @@ function App() {
 
                       <span className="stat-label">COURSES</span>
 
-                      <strong>30</strong>
+                      {/* Read from the catalogue rather than hard-coded, so
+                          the card cannot drift from what the API serves. */}
+                      <strong>{courses.length}</strong>
 
                     </div>
 
