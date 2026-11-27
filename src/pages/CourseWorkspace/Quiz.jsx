@@ -61,7 +61,7 @@ function Quiz({ modules, completedLessons, onStartQuiz, courseId, apiBaseUrl = "
       (module) => Number(module.id) === Number(quiz.lockedUntilModule)
     );
 
-    if (!requiredModule) return false;
+    if (!requiredModule) return true;
 
     return !requiredModule.lessons.every((lesson) =>
       completedLessons.includes(lesson.id)

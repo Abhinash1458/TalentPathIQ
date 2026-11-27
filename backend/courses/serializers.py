@@ -60,7 +60,12 @@ class AssignmentSerializer(serializers.ModelSerializer):
 
     def get_submission(self, obj):
         student_id = self.context.get("student_id")
-        record = obj.submissions.filter(student_id=student_id).first()
+        record = (
+            obj.submissions
+            .filter(student_id=student_id)
+            .exclude(file="")
+            .first()
+        )
         return AssignmentSubmissionSerializer(record, context=self.context).data if record else None
 
 
